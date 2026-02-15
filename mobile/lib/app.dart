@@ -47,5 +47,5 @@ class _SakaniAppState extends ConsumerState<SakaniApp> {
   }
 }
 
-/// Locale provider - defaults to Arabic
-final localeProvider = StateProvider<Locale>((ref) => const Locale('ar'));
+/// Locale provider - defaults to English
+final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
