@@ -76,8 +76,8 @@ abstract class AppTheme {
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           minimumSize: const Size(double.infinity, 52),
-          backgroundColor: AppColors.secondarySeed,
-          foregroundColor: AppColors.navy,
+          backgroundColor: AppColors.primaryDark,
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSpacing.radiusButton),
           ),
@@ -87,8 +87,8 @@ abstract class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 52),
-          backgroundColor: AppColors.secondarySeed,
-          foregroundColor: AppColors.navy,
+          backgroundColor: AppColors.primaryDark,
+          foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSpacing.radiusButton),

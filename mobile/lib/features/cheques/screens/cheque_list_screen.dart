@@ -49,7 +49,14 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.comingSoon),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 18, vertical: 10),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/l10n/generated/app_localizations.dart';
@@ -33,7 +34,7 @@ class UpcomingChequesSection extends ConsumerWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () => context.go('/tenant/cheques'),
                 child: Text(
                   l10n.seeAll,
                   style: const TextStyle(

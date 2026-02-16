@@ -1,8 +1,8 @@
 export const API_BASE_URL = '/api/v1';
 
 export const COLORS = {
-  navy: '#2D2B55',
-  navyLight: '#3D3B6E',
+  navy: '#1E1B4B',
+  navyLight: '#312E81',
   teal: '#14B8A6',
   tealDark: '#0D9488',
   gold: '#F5D547',

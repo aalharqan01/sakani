@@ -472,4 +472,7 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get checkConnection =>
       'يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى';
+
+  @override
+  String get comingSoon => 'قريباً';
 }

@@ -122,7 +122,7 @@ class _CreateMaintenanceScreenState
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.navy, AppColors.navyLight, Color(0xFF4A4780)],
+          colors: [AppColors.navy, AppColors.navyLight, Color(0xFF4338CA)],
           stops: [0.0, 0.6, 1.0],
         ),
       ),
@@ -165,7 +165,8 @@ class _CreateMaintenanceScreenState
         ),
       ),
       child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(24, 28, 24, 40),
+        padding: EdgeInsets.fromLTRB(24, 28, 24,
+            MediaQuery.of(context).padding.bottom + 100),
         child: Form(
           key: _formKey,
           child: Column(
@@ -179,7 +180,7 @@ class _CreateMaintenanceScreenState
                   return Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: categories.map((cat) {
+                    children: categories.map<Widget>((cat) {
                       final isSelected = _selectedCategoryId == cat.id;
                       return GestureDetector(
                         onTap: _isSubmitting
@@ -350,8 +351,8 @@ class _CreateMaintenanceScreenState
                 child: FilledButton(
                   onPressed: _isSubmitting ? null : _handleSubmit,
                   style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.secondarySeed,
-                    foregroundColor: AppColors.navy,
+                    backgroundColor: AppColors.primaryDark,
+                    foregroundColor: Colors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius:
@@ -364,7 +365,7 @@ class _CreateMaintenanceScreenState
                           width: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.navy,
+                            color: Colors.white,
                           ),
                         )
                       : Row(

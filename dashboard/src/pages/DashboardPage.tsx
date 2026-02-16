@@ -1,5 +1,5 @@
 import { useAuth } from '../auth/AuthContext';
-import { useChequeDashboard, useOverdueCheques } from '../hooks/useCheques';
+import { useChequeDashboard, useOverdueCheques, useUpcomingCheques } from '../hooks/useCheques';
 import { useMaintenanceRequests } from '../hooks/useMaintenance';
 import StatCard from '../components/shared/StatCard';
 import StatusBadge from '../components/shared/StatusBadge';
@@ -48,20 +48,10 @@ export default function DashboardPage() {
         />
       </div>
 
-      {/* Summary row */}
+      {/* Next Payment Tracker + Active Maintenance */}
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        {/* Total amount card */}
-        <div className="rounded-2xl bg-navy p-6 text-white">
-          <p className="text-sm font-medium text-white/60">Total Cheque Amount</p>
-          <p className="mt-2 text-3xl font-bold">
-            QAR {dashLoading ? '...' : Number(dashboard?.total_amount ?? 0).toLocaleString()}
-          </p>
-          <div className="mt-4 flex items-center gap-4 text-sm text-white/50">
-            <span>Cleared: QAR {Number(dashboard?.cleared_amount ?? 0).toLocaleString()}</span>
-            <span>·</span>
-            <span>{dashboard?.overdue ?? 0} overdue</span>
-          </div>
-        </div>
+        {/* Next Payment Card — matches sakani_indigo rent-card design */}
+        <NextPaymentCard dashboard={dashboard} isLoading={dashLoading} />
 
         {/* Active maintenance card */}
         <div className="rounded-2xl border border-border-light bg-white p-6">
@@ -119,6 +109,114 @@ function getGreeting() {
   if (h < 17) return 'Good afternoon';
   return 'Good evening';
 }
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function NextPaymentCard({ dashboard, isLoading }: { dashboard: any; isLoading: boolean }) {
+  const { data: upcoming } = useUpcomingCheques();
+  const nextCheque = upcoming?.[0];
+
+  const cleared = Number(dashboard?.cleared ?? 0);
+  const total = Number(dashboard?.total ?? 0);
+  const pct = total > 0 ? Math.round((cleared / total) * 100) : 0;
+
+  const dueDate = nextCheque?.due_date
+    ? new Date(nextCheque.due_date).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    : '—';
+
+  const amount = nextCheque
+    ? Number(nextCheque.amount).toLocaleString()
+    : Number(dashboard?.total_amount ?? 0).toLocaleString();
+
+  return (
+    <div
+      className="relative overflow-hidden rounded-2xl p-6"
+      style={{
+        background: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 100%)',
+        boxShadow: '0 10px 32px rgba(30,27,75,0.25)',
+      }}
+    >
+      {/* Decorative circle — top right */}
+      <div
+        className="pointer-events-none absolute"
+        style={{
+          top: '-30px',
+          right: '-30px',
+          width: '140px',
+          height: '140px',
+          borderRadius: '50%',
+          background: 'rgba(129,140,248,0.15)',
+        }}
+      />
+      {/* Decorative circle — bottom center-left */}
+      <div
+        className="pointer-events-none absolute"
+        style={{
+          bottom: '-20px',
+          left: '30%',
+          width: '100px',
+          height: '100px',
+          borderRadius: '50%',
+          background: 'rgba(129,140,248,0.08)',
+        }}
+      />
+
+      {/* Top row: label + badge */}
+      <div className="relative z-10 mb-4 flex items-center justify-between">
+        <span className="text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.6)' }}>
+          Next Payment
+        </span>
+        <div
+          className="flex items-center gap-1.5 rounded-xl px-3 py-1"
+          style={{ background: 'rgba(255,255,255,0.12)' }}
+        >
+          <div className="h-1.5 w-1.5 rounded-full" style={{ background: '#A5B4FC' }} />
+          <span className="text-[11px] font-semibold text-white">On Track</span>
+        </div>
+      </div>
+
+      {/* Currency */}
+      <p className="relative z-10 text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.55)' }}>
+        QAR
+      </p>
+
+      {/* Amount */}
+      <p className="relative z-10 my-1 text-[46px] font-bold leading-none text-white">
+        {isLoading ? '...' : amount}
+      </p>
+
+      {/* Due date */}
+      <p className="relative z-10 mb-5 text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        Due {dueDate}
+      </p>
+
+      {/* Progress section */}
+      <div className="relative z-10">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.55)' }}>
+            {cleared} of {total} cheques cleared
+          </span>
+          <span className="text-xs font-bold" style={{ color: '#A5B4FC' }}>
+            {pct}%
+          </span>
+        </div>
+        <div
+          className="h-[5px] overflow-hidden rounded-full"
+          style={{ background: 'rgba(255,255,255,0.15)' }}
+        >
+          <div
+            className="h-full rounded-full transition-all duration-500"
+            style={{ width: `${pct}%`, background: '#A5B4FC' }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 function ChequeIcon() {
   return (

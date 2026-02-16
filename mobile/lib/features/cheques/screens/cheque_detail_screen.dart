@@ -411,7 +411,14 @@ class _ChequeDetailContent extends StatelessWidget {
         children: [
           Expanded(
             child: OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.comingSoon),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              },
               icon: const Icon(Icons.download_outlined, size: 18),
               label: Text(l10n.download),
             ),
@@ -419,7 +426,14 @@ class _ChequeDetailContent extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: FilledButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.comingSoon),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              },
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.navy,
                 foregroundColor: Colors.white,

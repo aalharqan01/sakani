@@ -45,19 +45,11 @@ class RentCard extends ConsumerWidget {
           AppSpacing.screenPadding, 18, AppSpacing.screenPadding, 0),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.navy, AppColors.navyLight],
-        ),
+        color: Colors.white.withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.navy.withValues(alpha: 0.25),
-            blurRadius: 32,
-            offset: const Offset(0, 10),
-          ),
-        ],
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.12),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

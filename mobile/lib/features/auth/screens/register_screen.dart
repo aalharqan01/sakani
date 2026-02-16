@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/doha_skyline_painter.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/validators.dart';
 import '../models/auth_state.dart';
@@ -75,11 +76,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     });
 
     return Scaffold(
-      body: Column(
-        children: [
-          _buildHero(),
-          Expanded(child: _buildFormCard(isLoading)),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildHero(),
+            _buildFormCard(isLoading),
+          ],
+        ),
       ),
     );
   }
@@ -89,39 +92,71 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.only(
-        top: 64,
+        top: 60,
         left: 28,
         right: 28,
-        bottom: 36,
+        bottom: 40,
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.navy, AppColors.navyLight, Color(0xFF4A4780)],
+          begin: Alignment(-0.6, -0.8),
+          end: Alignment(0.8, 0.6),
+          colors: [AppColors.navy, AppColors.navyLight, Color(0xFF4338CA)],
           stops: [0.0, 0.6, 1.0],
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          Text(
-            l10n.appName,
-            style: const TextStyle(
-              fontSize: 38,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              height: 1,
-              letterSpacing: -0.5,
+          // Qatar skyline silhouette
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: -10,
+            height: 150,
+            child: CustomPaint(
+              painter: DohaSkylinePainter(
+                color: const Color(0x18A5B4FC),
+              ),
             ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            l10n.joinSubtitle,
-            style: const TextStyle(
-              fontSize: 15,
-              color: Colors.white70,
+          // Subtle glow circle — top left
+          Positioned(
+            top: -30,
+            left: -40,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0x0E818CF8),
+              ),
             ),
+          ),
+          // Text content
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                l10n.appName,
+                style: const TextStyle(
+                  fontSize: 38,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                  height: 1,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                l10n.joinSubtitle,
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: Color(0xB8FFFFFF), // rgba(255,255,255,0.72)
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -140,7 +175,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           topRight: Radius.circular(AppSpacing.radiusSheet),
         ),
       ),
-      child: SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
         child: Form(
           key: _formKey,
@@ -278,14 +313,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               ),
               const SizedBox(height: 22),
 
-              // Create Account button
-              SizedBox(
+              // Create Account button — indigo with glow shadow
+              Container(
                 height: 52,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusButton),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x73636AF1), // rgba(99,102,241,0.45)
+                      blurRadius: 20,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: FilledButton(
                   onPressed: isLoading ? null : _handleRegister,
                   style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.secondarySeed,
-                    foregroundColor: AppColors.navy,
+                    backgroundColor: AppColors.primaryDark,
+                    foregroundColor: Colors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius:
@@ -298,7 +343,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           width: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.navy,
+                            color: Colors.white,
                           ),
                         )
                       : Row(

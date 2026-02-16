@@ -472,4 +472,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get checkConnection =>
       'Please check your internet connection and try again';
+
+  @override
+  String get comingSoon => 'Coming soon';
 }

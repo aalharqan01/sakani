@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../core/l10n/generated/app_localizations.dart';
+import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 
@@ -15,24 +18,28 @@ class QuickActionsGrid extends StatelessWidget {
         label: l10n.scan,
         bgColor: AppColors.primarySurface,
         iconColor: AppColors.primaryDark,
+        onTap: () => _showComingSoon(context, l10n),
       ),
       _QuickAction(
         icon: Icons.credit_card_outlined,
         label: l10n.payRent,
         bgColor: AppColors.goldSurface,
         iconColor: AppColors.warning,
+        onTap: () => context.go('/tenant/cheques'),
       ),
       _QuickAction(
         icon: Icons.build_outlined,
         label: l10n.repair,
         bgColor: AppColors.catPurpleSurface,
         iconColor: AppColors.catPurple,
+        onTap: () => context.pushNamed(RouteNames.createRequest),
       ),
       _QuickAction(
         icon: Icons.bolt_outlined,
         label: l10n.utilities,
         bgColor: AppColors.errorSurface,
         iconColor: AppColors.error,
+        onTap: () => _showComingSoon(context, l10n),
       ),
     ];
 
@@ -48,10 +55,19 @@ class QuickActionsGrid extends StatelessWidget {
     );
   }
 
+  void _showComingSoon(BuildContext context, AppLocalizations l10n) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l10n.comingSoon),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   Widget _buildActionItem(_QuickAction action) {
     return Expanded(
       child: GestureDetector(
-        onTap: () {},
+        onTap: action.onTap,
         child: Column(
           children: [
             Container(
@@ -84,11 +100,13 @@ class _QuickAction {
   final String label;
   final Color bgColor;
   final Color iconColor;
+  final VoidCallback onTap;
 
   const _QuickAction({
     required this.icon,
     required this.label,
     required this.bgColor,
     required this.iconColor,
+    required this.onTap,
   });
 }

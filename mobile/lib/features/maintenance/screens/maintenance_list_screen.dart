@@ -118,7 +118,14 @@ class MaintenanceListScreen extends ConsumerWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.comingSoon),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      },
                       child: Text(
                         l10n.seeAll,
                         style: const TextStyle(

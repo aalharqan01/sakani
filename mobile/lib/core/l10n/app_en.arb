@@ -180,5 +180,6 @@
   "noMaintenanceRequests": "No maintenance requests",
   "pullToRefresh": "Pull to refresh",
   "connectionError": "Could not connect to server",
-  "checkConnection": "Please check your internet connection and try again"
+  "checkConnection": "Please check your internet connection and try again",
+  "comingSoon": "Coming soon"
 }
