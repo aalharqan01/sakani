@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app.dart';
+import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../auth/providers/auth_provider.dart';
 
@@ -10,12 +11,13 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final locale = ref.watch(localeProvider);
     final isArabic = locale.languageCode == 'ar';
     final user = ref.watch(currentUserProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(title: Text(l10n.profile)),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
@@ -51,8 +53,8 @@ class ProfileScreen extends ConsumerWidget {
           // Language toggle
           ListTile(
             leading: const Icon(Icons.language),
-            title: const Text('Language'),
-            subtitle: Text(isArabic ? 'العربية' : 'English'),
+            title: Text(l10n.language),
+            subtitle: Text(isArabic ? l10n.arabic : l10n.english),
             trailing: Switch(
               value: isArabic,
               onChanged: (value) {
@@ -67,7 +69,7 @@ class ProfileScreen extends ConsumerWidget {
             leading:
                 Icon(Icons.logout, color: Theme.of(context).colorScheme.error),
             title: Text(
-              'Logout',
+              l10n.logout,
               style:
                   TextStyle(color: Theme.of(context).colorScheme.error),
             ),
@@ -75,19 +77,19 @@ class ProfileScreen extends ConsumerWidget {
               showDialog(
                 context: context,
                 builder: (ctx) => AlertDialog(
-                  title: const Text('Logout'),
-                  content: const Text('Are you sure you want to logout?'),
+                  title: Text(l10n.logout),
+                  content: Text(l10n.logoutConfirmMessage),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(ctx),
-                      child: const Text('Cancel'),
+                      child: Text(l10n.cancel),
                     ),
                     FilledButton(
                       onPressed: () {
                         Navigator.pop(ctx);
                         ref.read(authProvider.notifier).logout();
                       },
-                      child: const Text('Logout'),
+                      child: Text(l10n.logout),
                     ),
                   ],
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -15,8 +16,9 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final user = ref.watch(currentUserProvider);
-    final displayName = user?.displayName ?? 'User';
+    final displayName = user?.displayName ?? '';
 
     return Scaffold(
       backgroundColor: AppColors.cream,
@@ -30,12 +32,12 @@ class HomeScreen extends ConsumerWidget {
               GreetingHeader(name: displayName),
               const RentCard(),
               const SizedBox(height: AppSpacing.xl),
-              const Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.screenPadding),
                 child: Text(
-                  'Quick Actions',
-                  style: TextStyle(
+                  l10n.quickActions,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textPrimary,

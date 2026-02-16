@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../cheques/providers/cheque_providers.dart';
@@ -11,12 +12,13 @@ class RentCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final dashboardAsync = ref.watch(chequeDashboardProvider);
     final upcomingAsync = ref.watch(upcomingChequesProvider);
 
     // Default values for display
     double amount = 8500;
-    String dueDate = 'Due soon';
+    String dueDate = l10n.dueSoon;
     int cleared = 0;
     int total = 12;
     double progress = 0;
@@ -31,7 +33,7 @@ class RentCard extends ConsumerWidget {
       if (list.isNotEmpty) {
         final next = list.first;
         amount = next.amount;
-        dueDate = 'Due ${DateFormat('MMMM dd, yyyy').format(next.dueDate)}';
+        dueDate = l10n.dueDateLabel(DateFormat('MMMM dd, yyyy').format(next.dueDate));
       }
     });
 
@@ -65,7 +67,7 @@ class RentCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Next Payment',
+                l10n.nextPayment,
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -90,9 +92,9 @@ class RentCard extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(width: 6),
-                    const Text(
-                      'On Track',
-                      style: TextStyle(
+                    Text(
+                      l10n.onTrack,
+                      style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -106,7 +108,7 @@ class RentCard extends ConsumerWidget {
           const SizedBox(height: 18),
           // Currency
           Text(
-            'QAR',
+            l10n.qar,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -139,7 +141,7 @@ class RentCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '$cleared of $total cheques cleared',
+                l10n.chequesClearedProgress(cleared, total),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,

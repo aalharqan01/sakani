@@ -10,6 +10,7 @@ import '../../features/cheques/screens/cheque_list_screen.dart';
 import '../../features/compound/screens/compound_list_screen.dart';
 import '../../features/compound/screens/unit_list_screen.dart';
 import '../../features/home/screens/home_screen.dart';
+import '../../features/maintenance/screens/create_maintenance_screen.dart';
 import '../../features/maintenance/screens/maintenance_list_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import 'role_shells.dart';
@@ -85,6 +86,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               path: '/tenant/maintenance',
               name: RouteNames.tenantMaintenance,
               builder: (context, state) => const MaintenanceListScreen(),
+              routes: [
+                GoRoute(
+                  path: 'create',
+                  name: RouteNames.createRequest,
+                  builder: (context, state) {
+                    final category =
+                        state.uri.queryParameters['category'];
+                    return CreateMaintenanceScreen(
+                        preselectedCategory: category);
+                  },
+                ),
+              ],
             ),
           ]),
           StatefulShellBranch(routes: [

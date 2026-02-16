@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/l10n/generated/app_localizations.dart';
+import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/widgets/sakani_error_view.dart';
 import '../models/maintenance_request_model.dart';
 import '../providers/maintenance_providers.dart';
 
@@ -12,6 +16,7 @@ class MaintenanceListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final requestsAsync = ref.watch(maintenanceRequestsProvider);
 
     return Scaffold(
@@ -29,16 +34,16 @@ class MaintenanceListScreen extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Maintenance',
-                      style: TextStyle(
+                    Text(
+                      l10n.maintenance,
+                      style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => context.pushNamed(RouteNames.createRequest),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 18, vertical: 10),
@@ -47,13 +52,13 @@ class MaintenanceListScreen extends ConsumerWidget {
                           borderRadius:
                               BorderRadius.circular(AppSpacing.radiusMd),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.add, size: 18, color: Colors.white),
-                            SizedBox(width: 8),
+                            const Icon(Icons.add, size: 18, color: Colors.white),
+                            const SizedBox(width: 8),
                             Text(
-                              'New',
-                              style: TextStyle(
+                              l10n.newRequest,
+                              style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -82,12 +87,12 @@ class MaintenanceListScreen extends ConsumerWidget {
               ),
 
               // Service categories
-              const Padding(
-                padding: EdgeInsets.fromLTRB(
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
                     AppSpacing.screenPadding, 24, AppSpacing.screenPadding, 0),
                 child: Text(
-                  'Service Categories',
-                  style: TextStyle(
+                  l10n.serviceCategories,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textPrimary,
@@ -95,7 +100,7 @@ class MaintenanceListScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              _buildCategoryGrid(),
+              _buildCategoryGrid(l10n),
 
               // History
               Padding(
@@ -104,9 +109,9 @@ class MaintenanceListScreen extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'History',
-                      style: TextStyle(
+                    Text(
+                      l10n.historySection,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -114,9 +119,9 @@ class MaintenanceListScreen extends ConsumerWidget {
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: const Text(
-                        'See all',
-                        style: TextStyle(
+                      child: Text(
+                        l10n.seeAll,
+                        style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: AppColors.primaryDark,
@@ -132,13 +137,13 @@ class MaintenanceListScreen extends ConsumerWidget {
                   final completed =
                       requests.where((r) => r.isCompleted).toList();
                   if (completed.isEmpty) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.screenPadding),
                       child: Text(
-                        'No completed requests yet',
-                        style:
-                            TextStyle(color: AppColors.textMuted, fontSize: 13),
+                        l10n.noCompletedRequests,
+                        style: const TextStyle(
+                            color: AppColors.textMuted, fontSize: 13),
                       ),
                     );
                   }
@@ -156,9 +161,9 @@ class MaintenanceListScreen extends ConsumerWidget {
                   );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, _) => Padding(
-                  padding: const EdgeInsets.all(AppSpacing.screenPadding),
-                  child: Text(err.toString()),
+                error: (err, _) => SakaniErrorView(
+                  message: err.toString(),
+                  onRetry: () => ref.invalidate(maintenanceRequestsProvider),
                 ),
               ),
             ],
@@ -168,41 +173,41 @@ class MaintenanceListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildCategoryGrid() {
+  Widget _buildCategoryGrid(AppLocalizations l10n) {
     final categories = [
       _CategoryItem(
         icon: Icons.thermostat_outlined,
-        label: 'AC',
+        label: l10n.categoryAc,
         bgColor: AppColors.catBlueSurface,
         iconColor: AppColors.catBlue,
       ),
       _CategoryItem(
         icon: Icons.water_drop_outlined,
-        label: 'Plumbing',
+        label: l10n.categoryPlumbing,
         bgColor: AppColors.catIndigoSurface,
         iconColor: AppColors.catIndigo,
       ),
       _CategoryItem(
         icon: Icons.bolt_outlined,
-        label: 'Electrical',
+        label: l10n.categoryElectrical,
         bgColor: AppColors.catAmberSurface,
         iconColor: AppColors.catAmber,
       ),
       _CategoryItem(
         icon: Icons.build_outlined,
-        label: 'General',
+        label: l10n.categoryGeneral,
         bgColor: AppColors.primarySurface,
         iconColor: AppColors.primaryDark,
       ),
       _CategoryItem(
         icon: Icons.pest_control_outlined,
-        label: 'Pest Control',
+        label: l10n.categoryPestControl,
         bgColor: AppColors.errorSurface,
         iconColor: AppColors.error,
       ),
       _CategoryItem(
         icon: Icons.add_box_outlined,
-        label: 'Other',
+        label: l10n.categoryOther,
         bgColor: AppColors.catPurpleSurface,
         iconColor: AppColors.catPurple,
       ),
@@ -224,7 +229,7 @@ class MaintenanceListScreen extends ConsumerWidget {
         itemBuilder: (context, index) {
           final cat = categories[index];
           return GestureDetector(
-            onTap: () {},
+            onTap: () => context.pushNamed(RouteNames.createRequest),
             child: Container(
               decoration: BoxDecoration(
                 color: AppColors.surface,
@@ -274,6 +279,7 @@ class _ActiveBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       margin:
           const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
@@ -300,7 +306,7 @@ class _ActiveBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${request.title} — In Progress',
+                  '${request.title} — ${l10n.inProgress}',
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -310,8 +316,8 @@ class _ActiveBanner extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   request.scheduledDate != null
-                      ? 'Scheduled: ${DateFormat('MMM dd, h:mm a').format(request.scheduledDate!)}'
-                      : 'In progress',
+                      ? l10n.scheduledForDate(DateFormat('MMM dd, h:mm a').format(request.scheduledDate!))
+                      : l10n.inProgress,
                   style: const TextStyle(
                     fontSize: 11,
                     color: AppColors.textSecondary,
@@ -333,6 +339,7 @@ class _HistoryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final dateStr = DateFormat('MMM dd, yyyy').format(request.createdAt);
 
     return Container(
@@ -390,9 +397,9 @@ class _HistoryRow extends StatelessWidget {
               color: AppColors.successSurface,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Text(
-              'DONE',
-              style: TextStyle(
+            child: Text(
+              l10n.done.toUpperCase(),
+              style: const TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.4,

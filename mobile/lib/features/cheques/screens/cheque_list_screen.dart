@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/widgets/sakani_empty_state.dart';
+import '../../../core/widgets/sakani_error_view.dart';
 import '../providers/cheque_providers.dart';
 import '../widgets/cheque_list_tile.dart';
 import '../widgets/cheque_summary_card.dart';
@@ -17,10 +20,11 @@ class ChequeListScreen extends ConsumerStatefulWidget {
 
 class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
   int _selectedSegment = 0;
-  final _segments = ['All', 'Upcoming', 'Cleared'];
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final segments = [l10n.all, l10n.upcoming, l10n.chequeStatusCleared];
     final cheques = ref.watch(chequeListProvider);
     final dashboard = ref.watch(chequeDashboardProvider);
 
@@ -36,9 +40,9 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Cheques',
-                    style: TextStyle(
+                  Text(
+                    l10n.cheques,
+                    style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -54,14 +58,14 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
                         borderRadius:
                             BorderRadius.circular(AppSpacing.radiusMd),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.camera_alt_outlined,
+                          const Icon(Icons.camera_alt_outlined,
                               size: 18, color: Colors.white),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Text(
-                            'Scan',
-                            style: TextStyle(
+                            l10n.scan,
+                            style: const TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -84,7 +88,7 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
                   children: [
                     Expanded(
                       child: ChequeSummaryCard(
-                        label: 'Cleared',
+                        label: l10n.chequeStatusCleared,
                         value: data.cleared,
                         color: AppColors.success,
                       ),
@@ -92,7 +96,7 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: ChequeSummaryCard(
-                        label: 'Pending',
+                        label: l10n.chequeStatusPending,
                         value: data.pending,
                         color: AppColors.warning,
                       ),
@@ -100,7 +104,7 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: ChequeSummaryCard(
-                        label: 'Bounced',
+                        label: l10n.chequeStatusBounced,
                         value: data.bounced,
                         color: AppColors.error,
                       ),
@@ -134,7 +138,7 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
                   borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                 ),
                 child: Row(
-                  children: List.generate(_segments.length, (index) {
+                  children: List.generate(segments.length, (index) {
                     final isActive = _selectedSegment == index;
                     return Expanded(
                       child: GestureDetector(
@@ -170,7 +174,7 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              _segments[index],
+                              segments[index],
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: isActive
@@ -194,11 +198,9 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
             Expanded(
               child: cheques.when(
                 data: (list) => list.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'No cheques found',
-                          style: TextStyle(color: AppColors.textMuted),
-                        ),
+                    ? SakaniEmptyState(
+                        icon: Icons.receipt_long_rounded,
+                        title: l10n.noCheques,
                       )
                     : ListView.separated(
                         padding: const EdgeInsets.fromLTRB(
@@ -222,26 +224,9 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
                       ),
                 loading: () =>
                     const Center(child: CircularProgressIndicator()),
-                error: (err, _) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.error_outline,
-                          size: 48, color: AppColors.textMuted),
-                      const SizedBox(height: 16),
-                      Text(
-                        err.toString(),
-                        style: const TextStyle(color: AppColors.textSecondary),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: () =>
-                            ref.invalidate(chequeListProvider),
-                        child: const Text('Retry'),
-                      ),
-                    ],
-                  ),
+                error: (err, _) => SakaniErrorView(
+                  message: err.toString(),
+                  onRetry: () => ref.invalidate(chequeListProvider),
                 ),
               ),
             ),

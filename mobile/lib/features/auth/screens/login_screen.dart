@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -76,6 +77,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _buildHero() {
+    final l10n = AppLocalizations.of(context);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.only(
@@ -92,12 +94,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           stops: [0.0, 0.6, 1.0],
         ),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Sakani',
-            style: TextStyle(
+            l10n.appName,
+            style: const TextStyle(
               fontSize: 38,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -105,10 +107,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               letterSpacing: -0.5,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
-            'Smart living starts here',
-            style: TextStyle(
+            l10n.loginTagline,
+            style: const TextStyle(
               fontSize: 15,
               color: Colors.white70,
             ),
@@ -119,6 +121,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _buildFormCard(ThemeData theme, bool isLoading) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       width: double.infinity,
       transform: Matrix4.translationValues(0, -20, 0),
@@ -137,18 +140,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Welcome title
-              const Text(
-                'Welcome back',
-                style: TextStyle(
+              Text(
+                l10n.welcomeBack,
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
-                'Sign in to manage your home',
-                style: TextStyle(
+              Text(
+                l10n.signInSubtitle,
+                style: const TextStyle(
                   fontSize: 14,
                   color: AppColors.textSecondary,
                 ),
@@ -156,16 +159,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 22),
 
               // Phone field
-              const _FieldLabel(text: 'Phone Number'),
+              _FieldLabel(text: l10n.phone),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 enabled: !isLoading,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   prefixText: '+974 ',
-                  prefixIcon: Icon(Icons.phone_outlined, size: 20),
-                  hintText: '1234 5678',
+                  prefixIcon: const Icon(Icons.phone_outlined, size: 20),
+                  hintText: l10n.phoneHint,
                 ),
                 validator: Validators.phone,
               ),
@@ -175,12 +178,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const _FieldLabel(text: 'Password'),
+                  _FieldLabel(text: l10n.password),
                   GestureDetector(
                     onTap: () {},
-                    child: const Text(
-                      'Forgot?',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.forgotPassword,
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: AppColors.navy,
@@ -236,18 +239,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             color: AppColors.navy,
                           ),
                         )
-                      : const Row(
+                      : Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Sign In',
-                              style: TextStyle(
+                              l10n.signIn,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            SizedBox(width: 8),
-                            Icon(Icons.arrow_forward, size: 18),
+                            const SizedBox(width: 8),
+                            const Icon(Icons.arrow_forward, size: 18),
                           ],
                         ),
                 ),
@@ -255,20 +258,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 22),
 
               // Divider
-              const Row(
+              Row(
                 children: [
-                  Expanded(child: Divider(color: AppColors.border)),
+                  const Expanded(child: Divider(color: AppColors.border)),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'or continue with',
-                      style: TextStyle(
+                      l10n.orContinueWith,
+                      style: const TextStyle(
                         fontSize: 12,
                         color: AppColors.textMuted,
                       ),
                     ),
                   ),
-                  Expanded(child: Divider(color: AppColors.border)),
+                  const Expanded(child: Divider(color: AppColors.border)),
                 ],
               ),
               const SizedBox(height: 22),
@@ -278,7 +281,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   Expanded(
                     child: _SocialButton(
-                      label: 'Google',
+                      label: l10n.google,
                       icon: Icons.g_mobiledata,
                       onTap: () {},
                     ),
@@ -286,7 +289,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _SocialButton(
-                      label: 'Apple',
+                      label: l10n.apple,
                       icon: Icons.apple,
                       onTap: () {},
                     ),
@@ -299,9 +302,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Don't have an account? ",
-                    style: TextStyle(
+                  Text(
+                    l10n.dontHaveAccount,
+                    style: const TextStyle(
                       fontSize: 14,
                       color: AppColors.textSecondary,
                     ),
@@ -310,9 +313,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     onTap: isLoading
                         ? null
                         : () => context.pushNamed(RouteNames.register),
-                    child: const Text(
-                      'Sign up',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.signUp,
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: AppColors.navy,

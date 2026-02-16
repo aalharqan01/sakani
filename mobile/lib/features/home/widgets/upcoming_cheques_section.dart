@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../cheques/models/cheque_model.dart';
@@ -12,6 +13,7 @@ class UpcomingChequesSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final upcoming = ref.watch(upcomingChequesProvider);
 
     return Column(
@@ -22,9 +24,9 @@ class UpcomingChequesSection extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Upcoming Cheques',
-                style: TextStyle(
+              Text(
+                l10n.upcomingCheques,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textPrimary,
@@ -32,9 +34,9 @@ class UpcomingChequesSection extends ConsumerWidget {
               ),
               GestureDetector(
                 onTap: () {},
-                child: const Text(
-                  'See all',
-                  style: TextStyle(
+                child: Text(
+                  l10n.seeAll,
+                  style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: AppColors.primaryDark,
@@ -48,11 +50,11 @@ class UpcomingChequesSection extends ConsumerWidget {
         upcoming.when(
           data: (list) {
             if (list.isEmpty) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
                 child: Text(
-                  'No upcoming cheques',
-                  style: TextStyle(color: AppColors.textMuted, fontSize: 13),
+                  l10n.noUpcomingCheques,
+                  style: const TextStyle(color: AppColors.textMuted, fontSize: 13),
                 ),
               );
             }
@@ -85,6 +87,7 @@ class _UpcomingChequeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final dateStr = DateFormat('MMM dd, yyyy').format(cheque.dueDate);
     final amountStr = NumberFormat('#,##0', 'en_US').format(cheque.amount);
 
@@ -119,7 +122,7 @@ class _UpcomingChequeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Cheque #${cheque.chequeNumber}',
+                  l10n.chequeNumberLabel(cheque.chequeNumber),
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -138,7 +141,7 @@ class _UpcomingChequeCard extends StatelessWidget {
             ),
           ),
           Text(
-            'QAR $amountStr',
+            '${l10n.qar} $amountStr',
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,

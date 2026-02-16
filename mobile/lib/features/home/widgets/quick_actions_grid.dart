@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 
@@ -7,28 +8,29 @@ class QuickActionsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final actions = [
       _QuickAction(
         icon: Icons.camera_alt_outlined,
-        label: 'Scan',
+        label: l10n.scan,
         bgColor: AppColors.primarySurface,
         iconColor: AppColors.primaryDark,
       ),
       _QuickAction(
         icon: Icons.credit_card_outlined,
-        label: 'Pay Rent',
+        label: l10n.payRent,
         bgColor: AppColors.goldSurface,
         iconColor: AppColors.warning,
       ),
       _QuickAction(
         icon: Icons.build_outlined,
-        label: 'Repair',
+        label: l10n.repair,
         bgColor: AppColors.catPurpleSurface,
         iconColor: AppColors.catPurple,
       ),
       _QuickAction(
         icon: Icons.bolt_outlined,
-        label: 'Utilities',
+        label: l10n.utilities,
         bgColor: AppColors.errorSurface,
         iconColor: AppColors.error,
       ),

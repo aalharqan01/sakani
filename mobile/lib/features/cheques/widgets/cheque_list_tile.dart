@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/enums/cheque_status.dart';
+import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../models/cheque_model.dart';
@@ -19,6 +20,7 @@ class ChequeListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final isBounced = cheque.status == ChequeStatus.bounced;
     final dateStr = DateFormat('MMM dd, yyyy').format(cheque.dueDate);
 
@@ -49,7 +51,7 @@ class ChequeListTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Cheque #${cheque.chequeNumber}',
+                    l10n.chequeNumberLabel(cheque.chequeNumber),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -60,7 +62,7 @@ class ChequeListTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '$dateStr \u00B7 ${_statusLabel(cheque.status)}',
+                    '$dateStr \u00B7 ${_statusLabel(l10n, cheque.status)}',
                     style: TextStyle(
                       fontSize: 11,
                       color: _statusColor(cheque.status),
@@ -88,16 +90,16 @@ class ChequeListTile extends StatelessWidget {
     return formatter.format(amount);
   }
 
-  String _statusLabel(ChequeStatus status) {
+  String _statusLabel(AppLocalizations l10n, ChequeStatus status) {
     switch (status) {
       case ChequeStatus.cleared:
-        return 'Cleared';
+        return l10n.chequeStatusCleared;
       case ChequeStatus.bounced:
-        return 'Bounced';
+        return l10n.chequeStatusBounced;
       case ChequeStatus.pending:
-        return 'Pending';
+        return l10n.chequeStatusPending;
       case ChequeStatus.deposited:
-        return 'Upcoming';
+        return l10n.upcoming;
       default:
         return status.name[0].toUpperCase() + status.name.substring(1);
     }

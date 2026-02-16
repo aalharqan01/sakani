@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/enums/cheque_status.dart';
+import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../models/cheque_model.dart';
@@ -14,6 +15,7 @@ class ChequeDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final chequeAsync = ref.watch(chequeDetailProvider(chequeId));
 
     return Scaffold(
@@ -29,7 +31,7 @@ class ChequeDetailScreen extends ConsumerWidget {
               TextButton(
                 onPressed: () =>
                     ref.invalidate(chequeDetailProvider(chequeId)),
-                child: const Text('Retry'),
+                child: Text(l10n.retry),
               ),
             ],
           ),
@@ -45,6 +47,7 @@ class _ChequeDetailContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SafeArea(
       child: Column(
         children: [
@@ -63,7 +66,7 @@ class _ChequeDetailContent extends StatelessWidget {
                           size: 24, color: AppColors.navy),
                       const SizedBox(width: 8),
                       Text(
-                        'Cheque Detail',
+                        l10n.chequeDetail,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -100,11 +103,11 @@ class _ChequeDetailContent extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 100),
               child: Column(
                 children: [
-                  _buildHeroSection(),
+                  _buildHeroSection(context),
                   const SizedBox(height: 24),
-                  _buildInfoCard(),
+                  _buildInfoCard(context),
                   const SizedBox(height: 24),
-                  _buildTimeline(),
+                  _buildTimeline(context),
                   const SizedBox(height: 24),
                   _buildActions(context),
                 ],
@@ -116,9 +119,10 @@ class _ChequeDetailContent extends StatelessWidget {
     );
   }
 
-  Widget _buildHeroSection() {
+  Widget _buildHeroSection(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final amountStr = NumberFormat('#,##0', 'en_US').format(cheque.amount);
-    final statusLabel = _statusDisplayLabel(cheque.status);
+    final statusLabel = _statusDisplayLabel(l10n, cheque.status);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
@@ -156,9 +160,9 @@ class _ChequeDetailContent extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           // Currency
-          const Text(
-            'QAR',
-            style: TextStyle(
+          Text(
+            l10n.qar,
+            style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: AppColors.textMuted,
@@ -178,7 +182,7 @@ class _ChequeDetailContent extends StatelessWidget {
           const SizedBox(height: 8),
           // Cheque info
           Text(
-            'Cheque #${cheque.chequeNumber} \u00B7 ${cheque.bankName}',
+            '${l10n.chequeNumberLabel(cheque.chequeNumber)} \u00B7 ${cheque.bankName}',
             style: const TextStyle(
               fontSize: 13,
               color: AppColors.textSecondary,
@@ -189,15 +193,16 @@ class _ChequeDetailContent extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoCard() {
+  Widget _buildInfoCard(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final dateStr = DateFormat('MMMM dd, yyyy').format(cheque.dueDate);
 
     final rows = [
-      ('Due Date', dateStr),
-      ('Bank', cheque.bankName),
-      ('Cheque Number', cheque.chequeNumber),
-      if (cheque.payeeName != null) ('Payee', cheque.payeeName!),
-      if (cheque.unitNumber != null) ('Property', cheque.unitNumber!),
+      (l10n.dueDate, dateStr),
+      (l10n.bank, cheque.bankName),
+      (l10n.chequeNumber, cheque.chequeNumber),
+      if (cheque.payeeName != null) (l10n.payee, cheque.payeeName!),
+      if (cheque.unitNumber != null) (l10n.property, cheque.unitNumber!),
     ];
 
     return Container(
@@ -254,14 +259,15 @@ class _ChequeDetailContent extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeline() {
+  Widget _buildTimeline(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final items = <_TimelineData>[];
 
     // Build timeline from status logs if available
     if (cheque.statusLogs != null && cheque.statusLogs!.isNotEmpty) {
       for (final log in cheque.statusLogs!) {
         items.add(_TimelineData(
-          title: 'Status: ${log.toStatus}',
+          title: log.toStatus,
           subtitle: DateFormat('MMM dd, yyyy').format(log.createdAt),
           isCompleted: true,
         ));
@@ -270,29 +276,29 @@ class _ChequeDetailContent extends StatelessWidget {
       // Default timeline
       items.addAll([
         _TimelineData(
-          title: 'Cheque submitted',
+          title: l10n.chequeSubmitted,
           subtitle: cheque.createdAt != null
               ? DateFormat('MMM dd, yyyy').format(cheque.createdAt!)
-              : 'Date unknown',
+              : l10n.dateUnknown,
           isCompleted: true,
         ),
         _TimelineData(
-          title: 'Verified by landlord',
-          subtitle: 'Verified',
+          title: l10n.verifiedByLandlord,
+          subtitle: l10n.verified,
           isCompleted: true,
         ),
         _TimelineData(
-          title: 'Awaiting clearing',
+          title: l10n.awaitingClearing,
           subtitle:
-              'Scheduled for ${DateFormat('MMM dd, yyyy').format(cheque.dueDate)}',
+              l10n.scheduledForDate(DateFormat('MMM dd, yyyy').format(cheque.dueDate)),
           isCurrent: cheque.status == ChequeStatus.pending ||
               cheque.status == ChequeStatus.deposited,
         ),
         _TimelineData(
-          title: 'Cleared',
+          title: l10n.chequeStatusCleared,
           subtitle: cheque.clearedDate != null
               ? DateFormat('MMM dd, yyyy').format(cheque.clearedDate!)
-              : 'Pending',
+              : l10n.chequeStatusPending,
           isCompleted: cheque.status == ChequeStatus.cleared,
           isFuture: cheque.status != ChequeStatus.cleared,
         ),
@@ -304,9 +310,9 @@ class _ChequeDetailContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Timeline',
-            style: TextStyle(
+          Text(
+            l10n.timeline,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
@@ -398,6 +404,7 @@ class _ChequeDetailContent extends StatelessWidget {
   }
 
   Widget _buildActions(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
       child: Row(
@@ -406,7 +413,7 @@ class _ChequeDetailContent extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.download_outlined, size: 18),
-              label: const Text('Download'),
+              label: Text(l10n.download),
             ),
           ),
           const SizedBox(width: 12),
@@ -423,7 +430,7 @@ class _ChequeDetailContent extends StatelessWidget {
                 ),
               ),
               icon: const Icon(Icons.email_outlined, size: 18),
-              label: const Text('Contact Bank'),
+              label: Text(l10n.contactBank),
             ),
           ),
         ],
@@ -431,16 +438,16 @@ class _ChequeDetailContent extends StatelessWidget {
     );
   }
 
-  String _statusDisplayLabel(ChequeStatus status) {
+  String _statusDisplayLabel(AppLocalizations l10n, ChequeStatus status) {
     switch (status) {
       case ChequeStatus.cleared:
-        return 'Cleared';
+        return l10n.chequeStatusCleared;
       case ChequeStatus.bounced:
-        return 'Bounced';
+        return l10n.chequeStatusBounced;
       case ChequeStatus.pending:
-        return 'Pending';
+        return l10n.chequeStatusPending;
       case ChequeStatus.deposited:
-        return 'Upcoming';
+        return l10n.upcoming;
       default:
         return status.name;
     }
