@@ -7,7 +7,11 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import ChequeListPage from './pages/cheques/ChequeListPage';
 import ChequeDetailPage from './pages/cheques/ChequeDetailPage';
+import CompoundListPage from './pages/compounds/CompoundListPage';
+import LeaseListPage from './pages/leases/LeaseListPage';
 import MaintenanceListPage from './pages/maintenance/MaintenanceListPage';
+import MaintenanceDetailPage from './pages/maintenance/MaintenanceDetailPage';
+import TenantListPage from './pages/tenants/TenantListPage';
 import UnitListPage from './pages/units/UnitListPage';
 
 const queryClient = new QueryClient({
@@ -31,7 +35,11 @@ export default function App() {
                 <Route index element={<DashboardPage />} />
                 <Route path="cheques" element={<ChequeListPage />} />
                 <Route path="cheques/:id" element={<ChequeDetailPage />} />
+                <Route path="compounds" element={<CompoundListPage />} />
+                <Route path="leases" element={<LeaseListPage />} />
+                <Route path="tenants" element={<TenantListPage />} />
                 <Route path="maintenance" element={<MaintenanceListPage />} />
+                <Route path="maintenance/:id" element={<MaintenanceDetailPage />} />
                 <Route path="units" element={<UnitListPage />} />
               </Route>
             </Route>

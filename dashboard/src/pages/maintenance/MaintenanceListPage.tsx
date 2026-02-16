@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useMaintenanceRequests } from '../../hooks/useMaintenance';
 import DataTable from '../../components/shared/DataTable';
 import StatusBadge from '../../components/shared/StatusBadge';
@@ -7,6 +8,7 @@ import type { MaintenanceRequest } from '../../lib/types';
 const statusFilters = ['all', 'submitted', 'in_progress', 'completed', 'cancelled'] as const;
 
 export default function MaintenanceListPage() {
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<string>('all');
   const params = filter !== 'all' ? { status: filter } : undefined;
   const { data, isLoading } = useMaintenanceRequests(params);
@@ -104,6 +106,7 @@ export default function MaintenanceListPage() {
         columns={columns}
         data={data?.results ?? []}
         keyExtractor={(row) => row.id}
+        onRowClick={(row) => navigate(`/maintenance/${row.id}`)}
         isLoading={isLoading}
         emptyMessage="No maintenance requests found"
       />

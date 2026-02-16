@@ -3,9 +3,12 @@ import { useAuth } from '../../auth/AuthContext';
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: DashboardIcon },
+  { to: '/compounds', label: 'Compounds', icon: CompoundIcon },
+  { to: '/units', label: 'Units', icon: UnitIcon },
+  { to: '/tenants', label: 'Tenants', icon: TenantIcon },
+  { to: '/leases', label: 'Leases', icon: LeaseIcon },
   { to: '/cheques', label: 'Cheques', icon: ChequeIcon },
   { to: '/maintenance', label: 'Maintenance', icon: MaintenanceIcon },
-  { to: '/units', label: 'Units', icon: UnitIcon },
 ];
 
 export default function Sidebar() {
@@ -101,6 +104,34 @@ function UnitIcon() {
       <path d="M3 18V6l7-4 7 4v12" />
       <path d="M3 18h14" />
       <rect x="7" y="10" width="6" height="8" rx="1" />
+    </svg>
+  );
+}
+
+function TenantIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <circle cx="10" cy="7" r="3" />
+      <path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+    </svg>
+  );
+}
+
+function CompoundIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="2" y="6" width="7" height="12" rx="1" />
+      <rect x="11" y="2" width="7" height="16" rx="1" />
+      <path d="M5 10h1M5 13h1M14 6h1M14 9h1M14 12h1" />
+    </svg>
+  );
+}
+
+function LeaseIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M14 2H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2z" />
+      <path d="M8 6h4M8 9h4M8 12h2" />
     </svg>
   );
 }
