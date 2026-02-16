@@ -18,6 +18,7 @@ class MaintenanceListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final requestsAsync = ref.watch(maintenanceRequestsProvider);
+    final categoriesAsync = ref.watch(maintenanceCategoriesProvider);
 
     return Scaffold(
       backgroundColor: AppColors.cream,
@@ -100,7 +101,7 @@ class MaintenanceListScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              _buildCategoryGrid(l10n),
+              _buildCategoryGrid(context, l10n, categoriesAsync),
 
               // History
               Padding(
@@ -180,101 +181,87 @@ class MaintenanceListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildCategoryGrid(AppLocalizations l10n) {
-    final categories = [
-      _CategoryItem(
-        icon: Icons.thermostat_outlined,
-        label: l10n.categoryAc,
-        bgColor: AppColors.catBlueSurface,
-        iconColor: AppColors.catBlue,
-      ),
-      _CategoryItem(
-        icon: Icons.water_drop_outlined,
-        label: l10n.categoryPlumbing,
-        bgColor: AppColors.catIndigoSurface,
-        iconColor: AppColors.catIndigo,
-      ),
-      _CategoryItem(
-        icon: Icons.bolt_outlined,
-        label: l10n.categoryElectrical,
-        bgColor: AppColors.catAmberSurface,
-        iconColor: AppColors.catAmber,
-      ),
-      _CategoryItem(
-        icon: Icons.build_outlined,
-        label: l10n.categoryGeneral,
-        bgColor: AppColors.primarySurface,
-        iconColor: AppColors.primaryDark,
-      ),
-      _CategoryItem(
-        icon: Icons.pest_control_outlined,
-        label: l10n.categoryPestControl,
-        bgColor: AppColors.errorSurface,
-        iconColor: AppColors.error,
-      ),
-      _CategoryItem(
-        icon: Icons.add_box_outlined,
-        label: l10n.categoryOther,
-        bgColor: AppColors.catPurpleSurface,
-        iconColor: AppColors.catPurple,
-      ),
-    ];
+  // Map category name_en to icon and color styling
+  static const _categoryStyles = <String, _CategoryStyle>{
+    'ac': _CategoryStyle(Icons.thermostat_outlined, AppColors.catBlueSurface, AppColors.catBlue),
+    'plumbing': _CategoryStyle(Icons.water_drop_outlined, AppColors.catIndigoSurface, AppColors.catIndigo),
+    'electrical': _CategoryStyle(Icons.bolt_outlined, AppColors.catAmberSurface, AppColors.catAmber),
+    'general': _CategoryStyle(Icons.build_outlined, AppColors.primarySurface, AppColors.primaryDark),
+    'pest control': _CategoryStyle(Icons.pest_control_outlined, AppColors.errorSurface, AppColors.error),
+  };
 
+  static const _defaultStyle = _CategoryStyle(Icons.add_box_outlined, AppColors.catPurpleSurface, AppColors.catPurple);
+
+  Widget _buildCategoryGrid(BuildContext context, AppLocalizations l10n, AsyncValue categoriesAsync) {
     return Padding(
       padding:
           const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 1,
-        ),
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final cat = categories[index];
-          return GestureDetector(
-            onTap: () => context.pushNamed(RouteNames.createRequest),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.03),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 42,
-                    height: 42,
-                    decoration: BoxDecoration(
-                      color: cat.bgColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(cat.icon, size: 20, color: cat.iconColor),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    cat.label,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
+      child: categoriesAsync.when(
+        data: (categories) {
+          return GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 1,
             ),
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              final cat = categories[index];
+              final style = _categoryStyles[cat.nameEn.toLowerCase()] ?? _defaultStyle;
+              return GestureDetector(
+                onTap: () => context.pushNamed(
+                  RouteNames.createRequest,
+                  queryParameters: {'category': cat.id},
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.03),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          color: style.bgColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(style.icon, size: 20, color: style.iconColor),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        cat.nameEn,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.textSecondary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           );
         },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (_, __) => Text(
+          l10n.somethingWentWrong,
+          style: const TextStyle(color: AppColors.error),
+        ),
       ),
     );
   }
@@ -420,16 +407,10 @@ class _HistoryRow extends StatelessWidget {
   }
 }
 
-class _CategoryItem {
+class _CategoryStyle {
   final IconData icon;
-  final String label;
   final Color bgColor;
   final Color iconColor;
 
-  const _CategoryItem({
-    required this.icon,
-    required this.label,
-    required this.bgColor,
-    required this.iconColor,
-  });
+  const _CategoryStyle(this.icon, this.bgColor, this.iconColor);
 }
