@@ -66,5 +66,120 @@
   "retry": "Retry",
   "loading": "Loading...",
   "error": "An error occurred",
-  "success": "Success"
+  "success": "Success",
+
+  "loginTagline": "Smart living starts here",
+  "welcomeBack": "Welcome back",
+  "signInSubtitle": "Sign in to manage your home",
+  "phoneHint": "1234 5678",
+  "forgotPassword": "Forgot?",
+  "signIn": "Sign In",
+  "orContinueWith": "or continue with",
+  "google": "Google",
+  "apple": "Apple",
+  "dontHaveAccount": "Don't have an account? ",
+  "signUp": "Sign up",
+
+  "quickActions": "Quick Actions",
+  "goodMorning": "Good morning",
+  "goodAfternoon": "Good afternoon",
+  "goodEvening": "Good evening",
+  "nextPayment": "Next Payment",
+  "onTrack": "On Track",
+  "dueSoon": "Due soon",
+  "dueDateLabel": "Due {date}",
+  "@dueDateLabel": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "chequesClearedProgress": "{cleared} of {total} cheques cleared",
+  "@chequesClearedProgress": {
+    "placeholders": {
+      "cleared": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "scan": "Scan",
+  "payRent": "Pay Rent",
+  "repair": "Repair",
+  "utilities": "Utilities",
+  "seeAll": "See all",
+  "noUpcomingCheques": "No upcoming cheques",
+  "recentActivity": "Recent Activity",
+
+  "chequeDetail": "Cheque Detail",
+  "chequeNumberLabel": "Cheque #{number}",
+  "@chequeNumberLabel": {
+    "placeholders": {
+      "number": { "type": "String" }
+    }
+  },
+  "all": "All",
+  "upcoming": "Upcoming",
+  "noChequesFound": "No cheques found",
+  "bank": "Bank",
+  "dueDate": "Due Date",
+  "payee": "Payee",
+  "property": "Property",
+  "timeline": "Timeline",
+  "chequeSubmitted": "Cheque submitted",
+  "dateUnknown": "Date unknown",
+  "verifiedByLandlord": "Verified by landlord",
+  "verified": "Verified",
+  "awaitingClearing": "Awaiting clearing",
+  "scheduledForDate": "Scheduled for {date}",
+  "@scheduledForDate": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "download": "Download",
+  "contactBank": "Contact Bank",
+
+  "newRequest": "New",
+  "serviceCategories": "Service Categories",
+  "historySection": "History",
+  "noCompletedRequests": "No completed requests yet",
+  "categoryOther": "Other",
+  "inProgress": "In Progress",
+  "done": "Done",
+
+  "logoutConfirmMessage": "Are you sure you want to logout?",
+
+  "createAccount": "Create Account",
+  "joinSubtitle": "Join Sakani today",
+  "confirmPassword": "Confirm Password",
+  "iAmA": "I am a...",
+  "roleTenant": "Tenant",
+  "roleLandlord": "Landlord / Manager",
+  "roleMaintenance": "Maintenance Team",
+  "alreadyHaveAccount": "Already have an account? ",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "pleaseConfirmPassword": "Please confirm your password",
+  "nameRequired": "Please enter your name",
+
+  "newMaintenanceRequest": "New Request",
+  "selectCategory": "Select Category",
+  "titleLabel": "Title",
+  "titleHint": "Brief summary of the issue",
+  "titleRequired": "Please enter a title",
+  "descriptionHint": "Describe the issue in detail...",
+  "descriptionRequired": "Please enter a description",
+  "urgencyLevel": "Urgency",
+  "preferredDate": "Preferred Date",
+  "selectDate": "Select date",
+  "submitting": "Submitting...",
+  "requestSubmitted": "Maintenance request submitted successfully",
+  "optional": "Optional",
+
+  "somethingWentWrong": "Something went wrong",
+  "tapToRetry": "Tap to retry",
+  "noItemsYet": "No items yet",
+  "noCheques": "No cheques to show",
+  "noMaintenanceRequests": "No maintenance requests",
+  "pullToRefresh": "Pull to refresh",
+  "connectionError": "Could not connect to server",
+  "checkConnection": "Please check your internet connection and try again",
+  "comingSoon": "Coming soon"
 }

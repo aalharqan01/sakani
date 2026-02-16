@@ -499,6 +499,522 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Success'**
   String get success;
+
+  /// No description provided for @loginTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart living starts here'**
+  String get loginTagline;
+
+  /// No description provided for @welcomeBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get welcomeBack;
+
+  /// No description provided for @signInSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to manage your home'**
+  String get signInSubtitle;
+
+  /// No description provided for @phoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'1234 5678'**
+  String get phoneHint;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot?'**
+  String get forgotPassword;
+
+  /// No description provided for @signIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// No description provided for @orContinueWith.
+  ///
+  /// In en, this message translates to:
+  /// **'or continue with'**
+  String get orContinueWith;
+
+  /// No description provided for @google.
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get google;
+
+  /// No description provided for @apple.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple'**
+  String get apple;
+
+  /// No description provided for @dontHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? '**
+  String get dontHaveAccount;
+
+  /// No description provided for @signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get signUp;
+
+  /// No description provided for @quickActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get quickActions;
+
+  /// No description provided for @goodMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get goodMorning;
+
+  /// No description provided for @goodAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get goodAfternoon;
+
+  /// No description provided for @goodEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get goodEvening;
+
+  /// No description provided for @nextPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Payment'**
+  String get nextPayment;
+
+  /// No description provided for @onTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'On Track'**
+  String get onTrack;
+
+  /// No description provided for @dueSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Due soon'**
+  String get dueSoon;
+
+  /// No description provided for @dueDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Due {date}'**
+  String dueDateLabel(String date);
+
+  /// No description provided for @chequesClearedProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{cleared} of {total} cheques cleared'**
+  String chequesClearedProgress(int cleared, int total);
+
+  /// No description provided for @scan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get scan;
+
+  /// No description provided for @payRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay Rent'**
+  String get payRent;
+
+  /// No description provided for @repair.
+  ///
+  /// In en, this message translates to:
+  /// **'Repair'**
+  String get repair;
+
+  /// No description provided for @utilities.
+  ///
+  /// In en, this message translates to:
+  /// **'Utilities'**
+  String get utilities;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get seeAll;
+
+  /// No description provided for @noUpcomingCheques.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming cheques'**
+  String get noUpcomingCheques;
+
+  /// No description provided for @recentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activity'**
+  String get recentActivity;
+
+  /// No description provided for @chequeDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheque Detail'**
+  String get chequeDetail;
+
+  /// No description provided for @chequeNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheque #{number}'**
+  String chequeNumberLabel(String number);
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @upcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get upcoming;
+
+  /// No description provided for @noChequesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No cheques found'**
+  String get noChequesFound;
+
+  /// No description provided for @bank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get bank;
+
+  /// No description provided for @dueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Date'**
+  String get dueDate;
+
+  /// No description provided for @payee.
+  ///
+  /// In en, this message translates to:
+  /// **'Payee'**
+  String get payee;
+
+  /// No description provided for @property.
+  ///
+  /// In en, this message translates to:
+  /// **'Property'**
+  String get property;
+
+  /// No description provided for @timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get timeline;
+
+  /// No description provided for @chequeSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheque submitted'**
+  String get chequeSubmitted;
+
+  /// No description provided for @dateUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Date unknown'**
+  String get dateUnknown;
+
+  /// No description provided for @verifiedByLandlord.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified by landlord'**
+  String get verifiedByLandlord;
+
+  /// No description provided for @verified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verified;
+
+  /// No description provided for @awaitingClearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting clearing'**
+  String get awaitingClearing;
+
+  /// No description provided for @scheduledForDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for {date}'**
+  String scheduledForDate(String date);
+
+  /// No description provided for @download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
+
+  /// No description provided for @contactBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Bank'**
+  String get contactBank;
+
+  /// No description provided for @newRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get newRequest;
+
+  /// No description provided for @serviceCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Categories'**
+  String get serviceCategories;
+
+  /// No description provided for @historySection.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historySection;
+
+  /// No description provided for @noCompletedRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'No completed requests yet'**
+  String get noCompletedRequests;
+
+  /// No description provided for @categoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get categoryOther;
+
+  /// No description provided for @inProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get inProgress;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @logoutConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get logoutConfirmMessage;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// No description provided for @joinSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Sakani today'**
+  String get joinSubtitle;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// No description provided for @iAmA.
+  ///
+  /// In en, this message translates to:
+  /// **'I am a...'**
+  String get iAmA;
+
+  /// No description provided for @roleTenant.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant'**
+  String get roleTenant;
+
+  /// No description provided for @roleLandlord.
+  ///
+  /// In en, this message translates to:
+  /// **'Landlord / Manager'**
+  String get roleLandlord;
+
+  /// No description provided for @roleMaintenance.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance Team'**
+  String get roleMaintenance;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? '**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// No description provided for @pleaseConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your password'**
+  String get pleaseConfirmPassword;
+
+  /// No description provided for @nameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your name'**
+  String get nameRequired;
+
+  /// No description provided for @newMaintenanceRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'New Request'**
+  String get newMaintenanceRequest;
+
+  /// No description provided for @selectCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Category'**
+  String get selectCategory;
+
+  /// No description provided for @titleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get titleLabel;
+
+  /// No description provided for @titleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Brief summary of the issue'**
+  String get titleHint;
+
+  /// No description provided for @titleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a title'**
+  String get titleRequired;
+
+  /// No description provided for @descriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the issue in detail...'**
+  String get descriptionHint;
+
+  /// No description provided for @descriptionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a description'**
+  String get descriptionRequired;
+
+  /// No description provided for @urgencyLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgency'**
+  String get urgencyLevel;
+
+  /// No description provided for @preferredDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred Date'**
+  String get preferredDate;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date'**
+  String get selectDate;
+
+  /// No description provided for @submitting.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting...'**
+  String get submitting;
+
+  /// No description provided for @requestSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance request submitted successfully'**
+  String get requestSubmitted;
+
+  /// No description provided for @optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get optional;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @tapToRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to retry'**
+  String get tapToRetry;
+
+  /// No description provided for @noItemsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No items yet'**
+  String get noItemsYet;
+
+  /// No description provided for @noCheques.
+  ///
+  /// In en, this message translates to:
+  /// **'No cheques to show'**
+  String get noCheques;
+
+  /// No description provided for @noMaintenanceRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'No maintenance requests'**
+  String get noMaintenanceRequests;
+
+  /// No description provided for @pullToRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull to refresh'**
+  String get pullToRefresh;
+
+  /// No description provided for @connectionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not connect to server'**
+  String get connectionError;
+
+  /// No description provided for @checkConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your internet connection and try again'**
+  String get checkConnection;
+
+  /// No description provided for @comingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get comingSoon;
 }
 
 class _AppLocalizationsDelegate

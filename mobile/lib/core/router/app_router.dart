@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -6,9 +5,12 @@ import '../../features/auth/models/auth_state.dart';
 import '../../features/auth/providers/auth_provider.dart';
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
+import '../../features/cheques/screens/cheque_detail_screen.dart';
 import '../../features/cheques/screens/cheque_list_screen.dart';
 import '../../features/compound/screens/compound_list_screen.dart';
 import '../../features/compound/screens/unit_list_screen.dart';
+import '../../features/home/screens/home_screen.dart';
+import '../../features/maintenance/screens/create_maintenance_screen.dart';
 import '../../features/maintenance/screens/maintenance_list_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import 'role_shells.dart';
@@ -25,12 +27,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           state.matchedLocation == '/register';
 
       if (authState is Authenticated) {
-        // Authenticated but on auth page → redirect to role home
-        if (isAuthRoute) return '/${authState.user.role.name}';
+        if (isAuthRoute) {
+          // Admin users get the landlord shell (full access)
+          final role = authState.user.role.name;
+          final path = role == 'admin' ? 'landlord' : role;
+          return '/$path';
+        }
         return null;
       }
 
-      // Not authenticated → force to login (unless already there)
       if (!isAuthRoute) return '/login';
       return null;
     },
@@ -56,8 +61,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             GoRoute(
               path: '/tenant',
               name: RouteNames.tenantHome,
-              builder: (context, state) =>
-                  const PlaceholderScreen(title: 'My Unit'),
+              builder: (context, state) => const HomeScreen(),
             ),
           ]),
           StatefulShellBranch(routes: [
@@ -65,6 +69,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               path: '/tenant/cheques',
               name: RouteNames.tenantCheques,
               builder: (context, state) => const ChequeListScreen(),
+              routes: [
+                GoRoute(
+                  path: ':chequeId',
+                  name: RouteNames.chequeDetail,
+                  builder: (context, state) {
+                    final chequeId = state.pathParameters['chequeId']!;
+                    return ChequeDetailScreen(chequeId: chequeId);
+                  },
+                ),
+              ],
             ),
           ]),
           StatefulShellBranch(routes: [
@@ -72,6 +86,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               path: '/tenant/maintenance',
               name: RouteNames.tenantMaintenance,
               builder: (context, state) => const MaintenanceListScreen(),
+              routes: [
+                GoRoute(
+                  path: 'create',
+                  name: RouteNames.createRequest,
+                  builder: (context, state) {
+                    final category =
+                        state.uri.queryParameters['category'];
+                    return CreateMaintenanceScreen(
+                        preselectedCategory: category);
+                  },
+                ),
+              ],
             ),
           ]),
           StatefulShellBranch(routes: [
@@ -108,6 +134,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               path: '/landlord/cheques',
               name: RouteNames.landlordCheques,
               builder: (context, state) => const ChequeListScreen(),
+              routes: [
+                GoRoute(
+                  path: ':chequeId',
+                  builder: (context, state) {
+                    final chequeId = state.pathParameters['chequeId']!;
+                    return ChequeDetailScreen(chequeId: chequeId);
+                  },
+                ),
+              ],
             ),
           ]),
           StatefulShellBranch(routes: [
@@ -151,22 +186,3 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
-
-/// Placeholder screen for features not yet implemented.
-class PlaceholderScreen extends StatelessWidget {
-  final String title;
-  const PlaceholderScreen({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-      ),
-    );
-  }
-}
