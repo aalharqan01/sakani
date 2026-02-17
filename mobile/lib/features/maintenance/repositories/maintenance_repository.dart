@@ -99,6 +99,144 @@ class MaintenanceRepository {
     }
   }
 
+  Future<Map<String, dynamic>> submitQuote(
+    String requestId, {
+    required double laborCost,
+    required double materialCost,
+    required int estimatedDays,
+    String? notes,
+  }) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.maintenanceQuote(requestId),
+        data: {
+          'labor_cost': laborCost.toString(),
+          'material_cost': materialCost.toString(),
+          'estimated_days': estimatedDays,
+          if (notes != null) 'notes': notes,
+        },
+      );
+      return response.data as Map<String, dynamic>;
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> acceptQuote(
+    String requestId,
+    String quoteId,
+  ) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.maintenanceAcceptQuote(requestId),
+        data: {'quote_id': quoteId},
+      );
+      return response.data as Map<String, dynamic>;
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> rejectQuote(
+    String requestId,
+    String quoteId,
+  ) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.maintenanceRejectQuote(requestId),
+        data: {'quote_id': quoteId},
+      );
+      return response.data as Map<String, dynamic>;
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<MaintenanceRequestModel> completeRequest(String requestId) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.maintenanceComplete(requestId),
+      );
+      return MaintenanceRequestModel.fromJson(
+          response.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<MaintenanceRequestModel> rateRequest(
+    String requestId, {
+    required int rating,
+    String? comment,
+  }) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.maintenanceRate(requestId),
+        data: {
+          'rating': rating,
+          if (comment != null) 'comment': comment,
+        },
+      );
+      return MaintenanceRequestModel.fromJson(
+          response.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getComments(String requestId) async {
+    try {
+      final response = await _dio.get(
+        ApiEndpoints.maintenanceComments(requestId),
+      );
+      final results = response.data is List
+          ? response.data as List
+          : (response.data['results'] as List?) ?? [];
+      return results.cast<Map<String, dynamic>>();
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> addComment(
+    String requestId, {
+    required String text,
+    bool isInternal = false,
+  }) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.maintenanceComments(requestId),
+        data: {
+          'text': text,
+          'is_internal': isInternal,
+        },
+      );
+      return response.data as Map<String, dynamic>;
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> uploadImage(
+    String requestId, {
+    required String filePath,
+    String imageType = 'issue',
+  }) async {
+    try {
+      final formData = FormData.fromMap({
+        'image': await MultipartFile.fromFile(filePath),
+        'image_type': imageType,
+      });
+      final response = await _dio.post(
+        ApiEndpoints.maintenanceImages(requestId),
+        data: formData,
+      );
+      return response.data as Map<String, dynamic>;
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
   ApiException _handleDioError(DioException e) {
     if (e.type == DioExceptionType.connectionError ||
         e.type == DioExceptionType.connectionTimeout) {

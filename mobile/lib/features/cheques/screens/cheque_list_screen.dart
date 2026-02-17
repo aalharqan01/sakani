@@ -209,25 +209,31 @@ class _ChequeListScreenState extends ConsumerState<ChequeListScreen> {
                         icon: Icons.receipt_long_rounded,
                         title: l10n.noCheques,
                       )
-                    : ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(
-                          AppSpacing.screenPadding,
-                          16,
-                          AppSpacing.screenPadding,
-                          100,
-                        ),
-                        itemCount: list.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 10),
-                        itemBuilder: (context, index) {
-                          final cheque = list[index];
-                          return ChequeListTile(
-                            cheque: cheque,
-                            onTap: () => context.push(
-                              '/tenant/cheques/${cheque.id}',
-                            ),
-                          );
+                    : RefreshIndicator(
+                        onRefresh: () async {
+                          ref.invalidate(chequeListProvider);
+                          ref.invalidate(chequeDashboardProvider);
                         },
+                        child: ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(
+                            AppSpacing.screenPadding,
+                            16,
+                            AppSpacing.screenPadding,
+                            100,
+                          ),
+                          itemCount: list.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 10),
+                          itemBuilder: (context, index) {
+                            final cheque = list[index];
+                            return ChequeListTile(
+                              cheque: cheque,
+                              onTap: () => context.go(
+                                '${GoRouterState.of(context).matchedLocation}/${cheque.id}',
+                              ),
+                            );
+                          },
+                        ),
                       ),
                 loading: () =>
                     const Center(child: CircularProgressIndicator()),

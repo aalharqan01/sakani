@@ -11,6 +11,7 @@ import '../../features/compound/screens/compound_list_screen.dart';
 import '../../features/compound/screens/unit_list_screen.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../features/maintenance/screens/create_maintenance_screen.dart';
+import '../../features/maintenance/screens/maintenance_detail_screen.dart';
 import '../../features/maintenance/screens/maintenance_list_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import 'role_shells.dart';
@@ -93,8 +94,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   builder: (context, state) {
                     final category =
                         state.uri.queryParameters['category'];
+                    final categoryName =
+                        state.uri.queryParameters['categoryName'];
                     return CreateMaintenanceScreen(
-                        preselectedCategory: category);
+                      preselectedCategory: category,
+                      categoryName: categoryName,
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: ':requestId',
+                  name: RouteNames.maintenanceDetail,
+                  builder: (context, state) {
+                    final requestId = state.pathParameters['requestId']!;
+                    return MaintenanceDetailScreen(requestId: requestId);
                   },
                 ),
               ],
@@ -150,6 +163,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               path: '/landlord/maintenance',
               name: RouteNames.landlordMaintenance,
               builder: (context, state) => const MaintenanceListScreen(),
+              routes: [
+                GoRoute(
+                  path: ':requestId',
+                  builder: (context, state) {
+                    final requestId = state.pathParameters['requestId']!;
+                    return MaintenanceDetailScreen(requestId: requestId);
+                  },
+                ),
+              ],
             ),
           ]),
           StatefulShellBranch(routes: [
@@ -172,6 +194,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               path: '/maintenance',
               name: RouteNames.maintenanceHome,
               builder: (context, state) => const MaintenanceListScreen(),
+              routes: [
+                GoRoute(
+                  path: ':requestId',
+                  builder: (context, state) {
+                    final requestId = state.pathParameters['requestId']!;
+                    return MaintenanceDetailScreen(requestId: requestId);
+                  },
+                ),
+              ],
             ),
           ]),
           StatefulShellBranch(routes: [

@@ -6,6 +6,9 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/doha_skyline_painter.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../notifications/providers/notification_providers.dart';
+import '../../notifications/screens/notification_list_screen.dart'
+    as notifications;
 import '../widgets/quick_actions_grid.dart';
 import '../widgets/recent_activity_section.dart';
 import '../widgets/rent_card.dart';
@@ -111,7 +114,7 @@ class HomeScreen extends ConsumerWidget {
 }
 
 /// Dark-themed greeting header for use on the navy gradient hero.
-class _GreetingHeaderDark extends StatelessWidget {
+class _GreetingHeaderDark extends ConsumerWidget {
   final String name;
   const _GreetingHeaderDark({required this.name});
 
@@ -123,8 +126,11 @@ class _GreetingHeaderDark extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final unreadAsync = ref.watch(unreadCountProvider);
+    final unreadCount = unreadAsync.valueOrNull ?? 0;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.screenPadding, vertical: 4),
@@ -155,36 +161,65 @@ class _GreetingHeaderDark extends StatelessWidget {
             ],
           ),
           // Notification bell
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.12),
-              shape: BoxShape.circle,
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const _NotificationsPage(),
+              ),
             ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                const Icon(Icons.notifications_outlined,
-                    size: 24, color: Colors.white),
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: AppColors.error,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.navy, width: 2),
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Icon(Icons.notifications_outlined,
+                      size: 24, color: Colors.white),
+                  if (unreadCount > 0)
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: AppColors.error,
+                          shape: BoxShape.circle,
+                          border:
+                              Border.all(color: AppColors.navy, width: 2),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+/// Wrapper to push the notification screen via MaterialPageRoute
+/// (avoids GoRouter dependency for a simple push).
+class _NotificationsPage extends StatelessWidget {
+  const _NotificationsPage();
+  @override
+  Widget build(BuildContext context) {
+    // Lazy import avoids circular dependency
+    return const _NotificationScreenLoader();
+  }
+}
+
+class _NotificationScreenLoader extends StatelessWidget {
+  const _NotificationScreenLoader();
+  @override
+  Widget build(BuildContext context) {
+    // Import at usage site
+    return const notifications.NotificationListScreen();
   }
 }

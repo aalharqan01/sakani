@@ -18,3 +18,8 @@ final maintenanceDetailProvider =
     FutureProvider.family<MaintenanceRequestModel, String>((ref, id) {
   return ref.watch(maintenanceRepositoryProvider).getRequestDetail(id);
 });
+
+final maintenanceCommentsProvider =
+    FutureProvider.family<List<Map<String, dynamic>>, String>((ref, id) {
+  return ref.watch(maintenanceRepositoryProvider).getComments(id);
+});

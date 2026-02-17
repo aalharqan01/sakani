@@ -11,8 +11,13 @@ import '../repositories/maintenance_repository.dart';
 
 class CreateMaintenanceScreen extends ConsumerStatefulWidget {
   final String? preselectedCategory;
+  final String? categoryName;
 
-  const CreateMaintenanceScreen({super.key, this.preselectedCategory});
+  const CreateMaintenanceScreen({
+    super.key,
+    this.preselectedCategory,
+    this.categoryName,
+  });
 
   @override
   ConsumerState<CreateMaintenanceScreen> createState() =>
@@ -135,7 +140,9 @@ class _CreateMaintenanceScreenState
           ),
           const SizedBox(height: 16),
           Text(
-            l10n.newMaintenanceRequest,
+            widget.categoryName != null
+                ? '${widget.categoryName} Request'
+                : l10n.newMaintenanceRequest,
             style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
@@ -145,7 +152,9 @@ class _CreateMaintenanceScreenState
           ),
           const SizedBox(height: 6),
           Text(
-            l10n.submitRequest,
+            widget.categoryName != null
+                ? '${l10n.submitRequest} — ${widget.categoryName}'
+                : l10n.submitRequest,
             style: const TextStyle(fontSize: 14, color: Colors.white70),
           ),
         ],
@@ -172,59 +181,61 @@ class _CreateMaintenanceScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Category selector
-              _FieldLabel(text: l10n.selectCategory),
-              const SizedBox(height: 8),
-              categoriesAsync.when(
-                data: (categories) {
-                  return Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: categories.map<Widget>((cat) {
-                      final isSelected = _selectedCategoryId == cat.id;
-                      return GestureDetector(
-                        onTap: _isSubmitting
-                            ? null
-                            : () => setState(
-                                () => _selectedCategoryId = cat.id),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? AppColors.navy
-                                : AppColors.cream,
-                            borderRadius:
-                                BorderRadius.circular(AppSpacing.radiusMd),
-                            border: Border.all(
+              // Category selector (only if no category preselected)
+              if (widget.preselectedCategory == null) ...[
+                _FieldLabel(text: l10n.selectCategory),
+                const SizedBox(height: 8),
+                categoriesAsync.when(
+                  data: (categories) {
+                    return Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: categories.map<Widget>((cat) {
+                        final isSelected = _selectedCategoryId == cat.id;
+                        return GestureDetector(
+                          onTap: _isSubmitting
+                              ? null
+                              : () => setState(
+                                  () => _selectedCategoryId = cat.id),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                            decoration: BoxDecoration(
                               color: isSelected
                                   ? AppColors.navy
-                                  : AppColors.border,
+                                  : AppColors.cream,
+                              borderRadius:
+                                  BorderRadius.circular(AppSpacing.radiusMd),
+                              border: Border.all(
+                                color: isSelected
+                                    ? AppColors.navy
+                                    : AppColors.border,
+                              ),
+                            ),
+                            child: Text(
+                              cat.nameEn,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: isSelected
+                                    ? Colors.white
+                                    : AppColors.textSecondary,
+                              ),
                             ),
                           ),
-                          child: Text(
-                            cat.nameEn,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: isSelected
-                                  ? Colors.white
-                                  : AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  );
-                },
-                loading: () =>
-                    const Center(child: CircularProgressIndicator()),
-                error: (_, __) => Text(
-                  l10n.somethingWentWrong,
-                  style: const TextStyle(color: AppColors.error),
+                        );
+                      }).toList(),
+                    );
+                  },
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (_, __) => Text(
+                    l10n.somethingWentWrong,
+                    style: const TextStyle(color: AppColors.error),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
+              ],
 
               // Title
               _FieldLabel(text: l10n.titleLabel),

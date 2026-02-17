@@ -374,6 +374,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get done => 'Done';
 
   @override
+  String get pending => 'Pending';
+
+  @override
+  String get quoted => 'Quoted';
+
+  @override
+  String get scheduled => 'Scheduled';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
   String get logoutConfirmMessage => 'Are you sure you want to logout?';
 
   @override
@@ -475,4 +487,210 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comingSoon => 'Coming soon';
+
+  @override
+  String get markAsDeposited => 'Mark as Deposited';
+
+  @override
+  String get markAsCleared => 'Mark as Cleared';
+
+  @override
+  String get markAsBounced => 'Mark as Bounced';
+
+  @override
+  String get depositConfirm =>
+      'Confirm that this cheque has been deposited at the bank?';
+
+  @override
+  String get clearConfirm =>
+      'Confirm that this cheque has been cleared successfully?';
+
+  @override
+  String get bounceConfirm => 'Mark this cheque as bounced?';
+
+  @override
+  String get bounceReason => 'Bounce reason';
+
+  @override
+  String get bounceReasonHint => 'e.g. Insufficient funds';
+
+  @override
+  String get chequeUpdated => 'Cheque status updated successfully';
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get notesHint => 'Add any notes (optional)';
+
+  @override
+  String get statusActions => 'Actions';
+
+  @override
+  String get maintenanceDetail => 'Request Detail';
+
+  @override
+  String get requestInfo => 'Request Info';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get urgency => 'Urgency';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get submittedOn => 'Submitted';
+
+  @override
+  String get scheduledFor => 'Scheduled for';
+
+  @override
+  String get completedOn => 'Completed';
+
+  @override
+  String get assignedTo => 'Assigned to';
+
+  @override
+  String get notAssigned => 'Not assigned';
+
+  @override
+  String get quote => 'Quote';
+
+  @override
+  String get laborCost => 'Labor Cost';
+
+  @override
+  String get materialCost => 'Material Cost';
+
+  @override
+  String get totalCost => 'Total Cost';
+
+  @override
+  String get estimatedDays => 'Estimated Days';
+
+  @override
+  String daysUnit(int count) {
+    return '$count days';
+  }
+
+  @override
+  String get acceptQuote => 'Accept Quote';
+
+  @override
+  String get rejectQuote => 'Reject Quote';
+
+  @override
+  String get acceptQuoteConfirm =>
+      'Accept this quote and proceed with the work?';
+
+  @override
+  String get rejectQuoteConfirm => 'Reject this quote?';
+
+  @override
+  String get quoteAccepted => 'Quote accepted';
+
+  @override
+  String get quoteRejected => 'Quote rejected';
+
+  @override
+  String get markComplete => 'Mark Complete';
+
+  @override
+  String get completeConfirm => 'Mark this maintenance request as completed?';
+
+  @override
+  String get requestCompleted => 'Request marked as completed';
+
+  @override
+  String get rateService => 'Rate Service';
+
+  @override
+  String get rateServiceSubtitle => 'How was the maintenance service?';
+
+  @override
+  String get ratingComment => 'Leave a comment (optional)';
+
+  @override
+  String get submitRating => 'Submit Rating';
+
+  @override
+  String get ratingSubmitted => 'Thank you for your feedback';
+
+  @override
+  String get comments => 'Comments';
+
+  @override
+  String get addComment => 'Add a comment...';
+
+  @override
+  String get sendComment => 'Send';
+
+  @override
+  String get noComments => 'No comments yet';
+
+  @override
+  String get statusSubmitted => 'Submitted';
+
+  @override
+  String get statusAcknowledged => 'Acknowledged';
+
+  @override
+  String get statusQuoted => 'Quoted';
+
+  @override
+  String get statusQuoteAccepted => 'Quote Accepted';
+
+  @override
+  String get statusQuoteRejected => 'Quote Rejected';
+
+  @override
+  String get statusScheduled => 'Scheduled';
+
+  @override
+  String get statusInProgress => 'In Progress';
+
+  @override
+  String get statusCompleted => 'Completed';
+
+  @override
+  String get statusConfirmed => 'Confirmed';
+
+  @override
+  String get statusCancelled => 'Cancelled';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get markAllRead => 'Mark all read';
+
+  @override
+  String get noNotifications => 'No notifications yet';
+
+  @override
+  String get notificationsChequeReminder => 'Cheque Reminder';
+
+  @override
+  String get notificationsChequeBounced => 'Cheque Bounced';
+
+  @override
+  String get notificationsChequeCleared => 'Cheque Cleared';
+
+  @override
+  String get notificationsMaintenanceUpdate => 'Maintenance Update';
+
+  @override
+  String get notificationsMaintenanceQuote => 'Maintenance Quote';
+
+  @override
+  String get notificationsLeaseExpiry => 'Lease Expiry';
+
+  @override
+  String get notificationsAnnouncement => 'Announcement';
+
+  @override
+  String get notificationsSystem => 'System';
 }

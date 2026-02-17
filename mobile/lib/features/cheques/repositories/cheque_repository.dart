@@ -85,6 +85,49 @@ class ChequeRepository {
     }
   }
 
+  Future<ChequeModel> depositCheque(String id, {String? notes}) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.chequeDeposit(id),
+        data: {'notes': notes ?? ''},
+      );
+      return ChequeModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<ChequeModel> clearCheque(String id, {String? notes}) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.chequeClear(id),
+        data: {'notes': notes ?? ''},
+      );
+      return ChequeModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  Future<ChequeModel> bounceCheque(
+    String id, {
+    String? bounceReason,
+    String? notes,
+  }) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.chequeBounce(id),
+        data: {
+          'bounce_reason': bounceReason ?? '',
+          'notes': notes ?? '',
+        },
+      );
+      return ChequeModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
   ApiException _handleDioError(DioException e) {
     if (e.type == DioExceptionType.connectionError ||
         e.type == DioExceptionType.connectionTimeout) {

@@ -81,7 +81,12 @@ class MaintenanceListScreen extends ConsumerWidget {
                   final active =
                       requests.where((r) => r.isActive).toList();
                   if (active.isEmpty) return const SizedBox.shrink();
-                  return _ActiveBanner(request: active.first);
+                  return GestureDetector(
+                    onTap: () => context.go(
+                      '${GoRouterState.of(context).matchedLocation}/${active.first.id}',
+                    ),
+                    child: _ActiveBanner(request: active.first),
+                  );
                 },
                 loading: () => const SizedBox.shrink(),
                 error: (_, __) => const SizedBox.shrink(),
@@ -142,9 +147,7 @@ class MaintenanceListScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               requestsAsync.when(
                 data: (requests) {
-                  final completed =
-                      requests.where((r) => r.isCompleted).toList();
-                  if (completed.isEmpty) {
+                  if (requests.isEmpty) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.screenPadding),
@@ -159,10 +162,15 @@ class MaintenanceListScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.screenPadding),
                     child: Column(
-                      children: completed.take(5).map((req) {
+                      children: requests.take(5).map((req) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
-                          child: _HistoryRow(request: req),
+                          child: GestureDetector(
+                            onTap: () => context.go(
+                              '${GoRouterState.of(context).matchedLocation}/${req.id}',
+                            ),
+                            child: _HistoryRow(request: req),
+                          ),
                         );
                       }).toList(),
                     ),
@@ -214,7 +222,10 @@ class MaintenanceListScreen extends ConsumerWidget {
               return GestureDetector(
                 onTap: () => context.pushNamed(
                   RouteNames.createRequest,
-                  queryParameters: {'category': cat.id},
+                  queryParameters: {
+                    'category': cat.id,
+                    'categoryName': cat.nameEn,
+                  },
                 ),
                 child: Container(
                   decoration: BoxDecoration(
@@ -331,10 +342,30 @@ class _HistoryRow extends StatelessWidget {
   final MaintenanceRequestModel request;
   const _HistoryRow({required this.request});
 
+  (Color, Color, IconData, String) _statusInfo(AppLocalizations l10n) {
+    switch (request.status) {
+      case 'completed' || 'confirmed':
+        return (AppColors.successSurface, AppColors.success, Icons.check, l10n.done);
+      case 'in_progress':
+        return (AppColors.primarySurface, AppColors.primaryDark, Icons.engineering_outlined, l10n.inProgress);
+      case 'submitted':
+        return (AppColors.warningSurface, AppColors.warning, Icons.schedule, l10n.pending);
+      case 'quoted':
+        return (AppColors.catBlueSurface, AppColors.catBlue, Icons.request_quote_outlined, l10n.quoted);
+      case 'scheduled':
+        return (AppColors.catIndigoSurface, AppColors.catIndigo, Icons.calendar_today, l10n.scheduled);
+      case 'cancelled':
+        return (AppColors.errorSurface, AppColors.error, Icons.cancel_outlined, l10n.cancelled);
+      default:
+        return (AppColors.creamDark, AppColors.textSecondary, Icons.info_outline, request.status);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final dateStr = DateFormat('MMM dd, yyyy').format(request.createdAt);
+    final (bgColor, fgColor, icon, label) = _statusInfo(l10n);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -354,12 +385,11 @@ class _HistoryRow extends StatelessWidget {
           Container(
             width: 36,
             height: 36,
-            decoration: const BoxDecoration(
-              color: AppColors.successSurface,
+            decoration: BoxDecoration(
+              color: bgColor,
               shape: BoxShape.circle,
             ),
-            child:
-                const Icon(Icons.check, size: 18, color: AppColors.success),
+            child: Icon(icon, size: 18, color: fgColor),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -388,16 +418,16 @@ class _HistoryRow extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: AppColors.successSurface,
+              color: bgColor,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
-              l10n.done.toUpperCase(),
-              style: const TextStyle(
+              label.toUpperCase(),
+              style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.4,
-                color: AppColors.success,
+                color: fgColor,
               ),
             ),
           ),

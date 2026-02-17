@@ -8,6 +8,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../models/cheque_model.dart';
 import '../providers/cheque_providers.dart';
+import '../repositories/cheque_repository.dart';
 
 class ChequeDetailScreen extends ConsumerWidget {
   final String chequeId;
@@ -41,9 +42,51 @@ class ChequeDetailScreen extends ConsumerWidget {
   }
 }
 
-class _ChequeDetailContent extends StatelessWidget {
+class _ChequeDetailContent extends ConsumerStatefulWidget {
   final ChequeModel cheque;
   const _ChequeDetailContent({required this.cheque});
+
+  @override
+  ConsumerState<_ChequeDetailContent> createState() =>
+      _ChequeDetailContentState();
+}
+
+class _ChequeDetailContentState extends ConsumerState<_ChequeDetailContent> {
+  bool _isActioning = false;
+
+  ChequeModel get cheque => widget.cheque;
+
+  Future<void> _performAction(
+    Future<ChequeModel> Function() action,
+  ) async {
+    if (_isActioning) return;
+    setState(() => _isActioning = true);
+    try {
+      await action();
+      if (mounted) {
+        ref.invalidate(chequeDetailProvider(cheque.id));
+        ref.invalidate(chequeListProvider);
+        ref.invalidate(chequeDashboardProvider);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context).chequeUpdated),
+            backgroundColor: AppColors.success,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.toString()),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isActioning = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -405,47 +448,208 @@ class _ChequeDetailContent extends StatelessWidget {
 
   Widget _buildActions(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final repo = ref.read(chequeRepositoryProvider);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.comingSoon),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.download_outlined, size: 18),
-              label: Text(l10n.download),
+          Text(
+            l10n.statusActions,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: FilledButton.icon(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.comingSoon),
-                    duration: const Duration(seconds: 2),
+          const SizedBox(height: 16),
+          // Status-specific action buttons
+          if (cheque.status == ChequeStatus.pending) ...[
+            Row(
+              children: [
+                Expanded(
+                  child: _ActionButton(
+                    label: l10n.markAsDeposited,
+                    icon: Icons.account_balance_outlined,
+                    color: AppColors.chequeDeposited,
+                    isLoading: _isActioning,
+                    onPressed: () => _showConfirmDialog(
+                      context,
+                      title: l10n.markAsDeposited,
+                      message: l10n.depositConfirm,
+                      onConfirm: () => _performAction(
+                        () => repo.depositCheque(cheque.id),
+                      ),
+                    ),
                   ),
-                );
-              },
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.navy,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(0, 48),
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(AppSpacing.radiusButton),
                 ),
-              ),
-              icon: const Icon(Icons.email_outlined, size: 18),
-              label: Text(l10n.contactBank),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _ActionButton(
+                    label: l10n.markAsBounced,
+                    icon: Icons.cancel_outlined,
+                    color: AppColors.error,
+                    isLoading: _isActioning,
+                    onPressed: () => _showBounceDialog(context),
+                  ),
+                ),
+              ],
             ),
+          ] else if (cheque.status == ChequeStatus.deposited) ...[
+            Row(
+              children: [
+                Expanded(
+                  child: _ActionButton(
+                    label: l10n.markAsCleared,
+                    icon: Icons.check_circle_outline,
+                    color: AppColors.success,
+                    isLoading: _isActioning,
+                    onPressed: () => _showConfirmDialog(
+                      context,
+                      title: l10n.markAsCleared,
+                      message: l10n.clearConfirm,
+                      onConfirm: () => _performAction(
+                        () => repo.clearCheque(cheque.id),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _ActionButton(
+                    label: l10n.markAsBounced,
+                    icon: Icons.cancel_outlined,
+                    color: AppColors.error,
+                    isLoading: _isActioning,
+                    onPressed: () => _showBounceDialog(context),
+                  ),
+                ),
+              ],
+            ),
+          ] else ...[
+            // Cleared / bounced / replaced — show download + contact bank
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.comingSoon),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.download_outlined, size: 18),
+                    label: Text(l10n.download),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.comingSoon),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.navy,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size(0, 48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(AppSpacing.radiusButton),
+                      ),
+                    ),
+                    icon: const Icon(Icons.email_outlined, size: 18),
+                    label: Text(l10n.contactBank),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  void _showConfirmDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+    required VoidCallback onConfirm,
+  }) {
+    final l10n = AppLocalizations.of(context);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              onConfirm();
+            },
+            child: Text(l10n.confirm),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showBounceDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final reasonController = TextEditingController();
+    final repo = ref.read(chequeRepositoryProvider);
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.markAsBounced),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.bounceConfirm),
+            const SizedBox(height: 16),
+            TextField(
+              controller: reasonController,
+              decoration: InputDecoration(
+                labelText: l10n.bounceReason,
+                hintText: l10n.bounceReasonHint,
+              ),
+              maxLines: 2,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.error,
+            ),
+            onPressed: () {
+              Navigator.pop(ctx);
+              _performAction(
+                () => repo.bounceCheque(
+                  cheque.id,
+                  bounceReason: reasonController.text.trim(),
+                ),
+              );
+            },
+            child: Text(l10n.markAsBounced),
           ),
         ],
       ),
@@ -491,6 +695,51 @@ class _ChequeDetailContent extends StatelessWidget {
       default:
         return AppColors.primaryDark;
     }
+  }
+}
+
+class _ActionButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  final bool isLoading;
+  final VoidCallback onPressed;
+
+  const _ActionButton({
+    required this.label,
+    required this.icon,
+    required this.color,
+    required this.isLoading,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton.icon(
+      onPressed: isLoading ? null : onPressed,
+      style: FilledButton.styleFrom(
+        backgroundColor: color,
+        foregroundColor: Colors.white,
+        minimumSize: const Size(0, 48),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusButton),
+        ),
+      ),
+      icon: isLoading
+          ? const SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            )
+          : Icon(icon, size: 18),
+      label: Text(
+        label,
+        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+      ),
+    );
   }
 }
 

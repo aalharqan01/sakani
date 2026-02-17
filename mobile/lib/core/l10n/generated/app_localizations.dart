@@ -812,6 +812,30 @@ abstract class AppLocalizations {
   /// **'Done'**
   String get done;
 
+  /// No description provided for @pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// No description provided for @quoted.
+  ///
+  /// In en, this message translates to:
+  /// **'Quoted'**
+  String get quoted;
+
+  /// No description provided for @scheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get scheduled;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
   /// No description provided for @logoutConfirmMessage.
   ///
   /// In en, this message translates to:
@@ -1015,6 +1039,408 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Coming soon'**
   String get comingSoon;
+
+  /// No description provided for @markAsDeposited.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Deposited'**
+  String get markAsDeposited;
+
+  /// No description provided for @markAsCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Cleared'**
+  String get markAsCleared;
+
+  /// No description provided for @markAsBounced.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Bounced'**
+  String get markAsBounced;
+
+  /// No description provided for @depositConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm that this cheque has been deposited at the bank?'**
+  String get depositConfirm;
+
+  /// No description provided for @clearConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm that this cheque has been cleared successfully?'**
+  String get clearConfirm;
+
+  /// No description provided for @bounceConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark this cheque as bounced?'**
+  String get bounceConfirm;
+
+  /// No description provided for @bounceReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Bounce reason'**
+  String get bounceReason;
+
+  /// No description provided for @bounceReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Insufficient funds'**
+  String get bounceReasonHint;
+
+  /// No description provided for @chequeUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheque status updated successfully'**
+  String get chequeUpdated;
+
+  /// No description provided for @notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// No description provided for @notesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add any notes (optional)'**
+  String get notesHint;
+
+  /// No description provided for @statusActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get statusActions;
+
+  /// No description provided for @maintenanceDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Request Detail'**
+  String get maintenanceDetail;
+
+  /// No description provided for @requestInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Request Info'**
+  String get requestInfo;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// No description provided for @urgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgency'**
+  String get urgency;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @submittedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted'**
+  String get submittedOn;
+
+  /// No description provided for @scheduledFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for'**
+  String get scheduledFor;
+
+  /// No description provided for @completedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completedOn;
+
+  /// No description provided for @assignedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned to'**
+  String get assignedTo;
+
+  /// No description provided for @notAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Not assigned'**
+  String get notAssigned;
+
+  /// No description provided for @quote.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote'**
+  String get quote;
+
+  /// No description provided for @laborCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Labor Cost'**
+  String get laborCost;
+
+  /// No description provided for @materialCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Material Cost'**
+  String get materialCost;
+
+  /// No description provided for @totalCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Cost'**
+  String get totalCost;
+
+  /// No description provided for @estimatedDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Days'**
+  String get estimatedDays;
+
+  /// No description provided for @daysUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days'**
+  String daysUnit(int count);
+
+  /// No description provided for @acceptQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept Quote'**
+  String get acceptQuote;
+
+  /// No description provided for @rejectQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject Quote'**
+  String get rejectQuote;
+
+  /// No description provided for @acceptQuoteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept this quote and proceed with the work?'**
+  String get acceptQuoteConfirm;
+
+  /// No description provided for @rejectQuoteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject this quote?'**
+  String get rejectQuoteConfirm;
+
+  /// No description provided for @quoteAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote accepted'**
+  String get quoteAccepted;
+
+  /// No description provided for @quoteRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote rejected'**
+  String get quoteRejected;
+
+  /// No description provided for @markComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark Complete'**
+  String get markComplete;
+
+  /// No description provided for @completeConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark this maintenance request as completed?'**
+  String get completeConfirm;
+
+  /// No description provided for @requestCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Request marked as completed'**
+  String get requestCompleted;
+
+  /// No description provided for @rateService.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Service'**
+  String get rateService;
+
+  /// No description provided for @rateServiceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How was the maintenance service?'**
+  String get rateServiceSubtitle;
+
+  /// No description provided for @ratingComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave a comment (optional)'**
+  String get ratingComment;
+
+  /// No description provided for @submitRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Rating'**
+  String get submitRating;
+
+  /// No description provided for @ratingSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your feedback'**
+  String get ratingSubmitted;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
+
+  /// No description provided for @addComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a comment...'**
+  String get addComment;
+
+  /// No description provided for @sendComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get sendComment;
+
+  /// No description provided for @noComments.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet'**
+  String get noComments;
+
+  /// No description provided for @statusSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted'**
+  String get statusSubmitted;
+
+  /// No description provided for @statusAcknowledged.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledged'**
+  String get statusAcknowledged;
+
+  /// No description provided for @statusQuoted.
+  ///
+  /// In en, this message translates to:
+  /// **'Quoted'**
+  String get statusQuoted;
+
+  /// No description provided for @statusQuoteAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote Accepted'**
+  String get statusQuoteAccepted;
+
+  /// No description provided for @statusQuoteRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote Rejected'**
+  String get statusQuoteRejected;
+
+  /// No description provided for @statusScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get statusScheduled;
+
+  /// No description provided for @statusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get statusInProgress;
+
+  /// No description provided for @statusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get statusCompleted;
+
+  /// No description provided for @statusConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get statusConfirmed;
+
+  /// No description provided for @statusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get statusCancelled;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @markAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get markAllRead;
+
+  /// No description provided for @noNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get noNotifications;
+
+  /// No description provided for @notificationsChequeReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheque Reminder'**
+  String get notificationsChequeReminder;
+
+  /// No description provided for @notificationsChequeBounced.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheque Bounced'**
+  String get notificationsChequeBounced;
+
+  /// No description provided for @notificationsChequeCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheque Cleared'**
+  String get notificationsChequeCleared;
+
+  /// No description provided for @notificationsMaintenanceUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance Update'**
+  String get notificationsMaintenanceUpdate;
+
+  /// No description provided for @notificationsMaintenanceQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance Quote'**
+  String get notificationsMaintenanceQuote;
+
+  /// No description provided for @notificationsLeaseExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease Expiry'**
+  String get notificationsLeaseExpiry;
+
+  /// No description provided for @notificationsAnnouncement.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcement'**
+  String get notificationsAnnouncement;
+
+  /// No description provided for @notificationsSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get notificationsSystem;
 }
 
 class _AppLocalizationsDelegate

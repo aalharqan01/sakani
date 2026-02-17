@@ -374,6 +374,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get done => 'مكتمل';
 
   @override
+  String get pending => 'معلق';
+
+  @override
+  String get quoted => 'تم التسعير';
+
+  @override
+  String get scheduled => 'مجدول';
+
+  @override
+  String get cancelled => 'ملغي';
+
+  @override
   String get logoutConfirmMessage => 'هل أنت متأكد من تسجيل الخروج؟';
 
   @override
@@ -475,4 +487,207 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get comingSoon => 'قريباً';
+
+  @override
+  String get markAsDeposited => 'تسجيل كإيداع';
+
+  @override
+  String get markAsCleared => 'تسجيل كمحصّل';
+
+  @override
+  String get markAsBounced => 'تسجيل كمرتجع';
+
+  @override
+  String get depositConfirm => 'تأكيد أنه تم إيداع هذا الشيك في البنك؟';
+
+  @override
+  String get clearConfirm => 'تأكيد أنه تم تحصيل هذا الشيك بنجاح؟';
+
+  @override
+  String get bounceConfirm => 'تسجيل هذا الشيك كمرتجع؟';
+
+  @override
+  String get bounceReason => 'سبب الارتجاع';
+
+  @override
+  String get bounceReasonHint => 'مثال: رصيد غير كافٍ';
+
+  @override
+  String get chequeUpdated => 'تم تحديث حالة الشيك بنجاح';
+
+  @override
+  String get notes => 'ملاحظات';
+
+  @override
+  String get notesHint => 'أضف ملاحظات (اختياري)';
+
+  @override
+  String get statusActions => 'الإجراءات';
+
+  @override
+  String get maintenanceDetail => 'تفاصيل الطلب';
+
+  @override
+  String get requestInfo => 'معلومات الطلب';
+
+  @override
+  String get category => 'الفئة';
+
+  @override
+  String get urgency => 'الأولوية';
+
+  @override
+  String get status => 'الحالة';
+
+  @override
+  String get submittedOn => 'تم التقديم';
+
+  @override
+  String get scheduledFor => 'مجدول في';
+
+  @override
+  String get completedOn => 'تم الإنجاز';
+
+  @override
+  String get assignedTo => 'مسند إلى';
+
+  @override
+  String get notAssigned => 'غير مسند';
+
+  @override
+  String get quote => 'عرض السعر';
+
+  @override
+  String get laborCost => 'تكلفة العمالة';
+
+  @override
+  String get materialCost => 'تكلفة المواد';
+
+  @override
+  String get totalCost => 'التكلفة الإجمالية';
+
+  @override
+  String get estimatedDays => 'الأيام المقدرة';
+
+  @override
+  String daysUnit(int count) {
+    return '$count أيام';
+  }
+
+  @override
+  String get acceptQuote => 'قبول العرض';
+
+  @override
+  String get rejectQuote => 'رفض العرض';
+
+  @override
+  String get acceptQuoteConfirm => 'قبول هذا العرض والمتابعة بالعمل؟';
+
+  @override
+  String get rejectQuoteConfirm => 'رفض هذا العرض؟';
+
+  @override
+  String get quoteAccepted => 'تم قبول العرض';
+
+  @override
+  String get quoteRejected => 'تم رفض العرض';
+
+  @override
+  String get markComplete => 'تسجيل كمكتمل';
+
+  @override
+  String get completeConfirm => 'تسجيل طلب الصيانة هذا كمكتمل؟';
+
+  @override
+  String get requestCompleted => 'تم تسجيل الطلب كمكتمل';
+
+  @override
+  String get rateService => 'تقييم الخدمة';
+
+  @override
+  String get rateServiceSubtitle => 'كيف كانت خدمة الصيانة؟';
+
+  @override
+  String get ratingComment => 'اترك تعليقاً (اختياري)';
+
+  @override
+  String get submitRating => 'إرسال التقييم';
+
+  @override
+  String get ratingSubmitted => 'شكراً لملاحظاتك';
+
+  @override
+  String get comments => 'التعليقات';
+
+  @override
+  String get addComment => 'أضف تعليقاً...';
+
+  @override
+  String get sendComment => 'إرسال';
+
+  @override
+  String get noComments => 'لا توجد تعليقات بعد';
+
+  @override
+  String get statusSubmitted => 'تم التقديم';
+
+  @override
+  String get statusAcknowledged => 'تم الاستلام';
+
+  @override
+  String get statusQuoted => 'تم التسعير';
+
+  @override
+  String get statusQuoteAccepted => 'تم قبول العرض';
+
+  @override
+  String get statusQuoteRejected => 'تم رفض العرض';
+
+  @override
+  String get statusScheduled => 'مجدول';
+
+  @override
+  String get statusInProgress => 'قيد التنفيذ';
+
+  @override
+  String get statusCompleted => 'مكتمل';
+
+  @override
+  String get statusConfirmed => 'مؤكد';
+
+  @override
+  String get statusCancelled => 'ملغي';
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get markAllRead => 'قراءة الكل';
+
+  @override
+  String get noNotifications => 'لا توجد إشعارات بعد';
+
+  @override
+  String get notificationsChequeReminder => 'تذكير بالشيك';
+
+  @override
+  String get notificationsChequeBounced => 'شيك مرتجع';
+
+  @override
+  String get notificationsChequeCleared => 'تم تحصيل الشيك';
+
+  @override
+  String get notificationsMaintenanceUpdate => 'تحديث الصيانة';
+
+  @override
+  String get notificationsMaintenanceQuote => 'عرض سعر الصيانة';
+
+  @override
+  String get notificationsLeaseExpiry => 'انتهاء عقد الإيجار';
+
+  @override
+  String get notificationsAnnouncement => 'إعلان';
+
+  @override
+  String get notificationsSystem => 'نظام';
 }
